@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-aafp-dev-201807-authRole",
+      "UnauthRoleArn": "arn:aws:iam::441186708207:role/amplify-aafp-dev-201807-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::441186708207:role/amplify-aafp-dev-201807-authRole",
+      "Region": "us-west-1",
+      "DeploymentBucketName": "amplify-aafp-dev-201807-deployment",
+      "UnauthRoleName": "amplify-aafp-dev-201807-unauthRole",
+      "StackName": "amplify-aafp-dev-201807",
+      "StackId": "arn:aws:cloudformation:us-west-1:441186708207:stack/amplify-aafp-dev-201807/af35e990-6a74-11ed-a324-02263357c701",
+      "AmplifyAppId": "d9hb08d1xrct8"
+    },
+    "categories": {
+      "api": {
+        "aafp": {}
+      }
+    }
+  }
+}

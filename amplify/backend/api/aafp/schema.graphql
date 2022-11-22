@@ -1,0 +1,48 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type AAFPMainSetup @model {
+    dialed_number: String! @primaryKey
+    group_full_name: String
+    group_name: String
+    main_greeting: String
+    after_hr_msg: String
+    enable_emergency_flg: Boolean
+    no_agents_logged_in_flg: Boolean
+    agents_unstaffed_flg: Boolean
+    enable_callback_flg: Boolean
+    enable_spcl_condtn_flg: Boolean
+    spcl_condtn_msg: String
+    route_call_to_queue: String
+    queue_msg: String
+    extn_num: String
+    play_menu_optns_flg: String
+    menu_optn_msg: String
+    queue_name: String
+    voice_mail_flg: String
+    last_update_by: String
+    last_update_date: AWSDateTime
+}
+
+type AAFPEmergencyMsgSetup @model {
+    id : AWSDateTime! @primaryKey
+    group_name: String
+    emergency_msg: String
+    active_flg: Boolean
+    last_update_by: String
+    last_update_date: AWSDateTime
+}
+
+type AAFPHolidayMsgSetup @model {
+    id: AWSDateTime! @primaryKey
+    holiday_start_dt: AWSDateTime
+    holiday_end_dt: AWSDateTime
+    holiday_type: String
+    group_name: String
+    holiday_msg: String
+    active_flg: Boolean
+    last_update_by: String
+    last_update_date: AWSDateTime
+
+}
