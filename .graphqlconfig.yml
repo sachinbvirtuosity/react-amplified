@@ -1,6 +1,6 @@
 projects:
   aafp:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/aafp/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:

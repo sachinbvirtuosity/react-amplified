@@ -1,7 +1,14 @@
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+// sachin's code start
+
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+// sachin's code end
+
+function App({ signOut, user }) {
   return (
     <div className="App">
       <header className="App-header">
@@ -22,4 +29,4 @@ function App() {
   );
 }
 
-export default App;
+export default withAuthenticator(App);
