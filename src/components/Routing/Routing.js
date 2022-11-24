@@ -6,7 +6,7 @@ const Routing = () => {
       <h2 className="text-center font-bold text-2xl">Routing Setup</h2>
       <hr className="border-line mt-2" />
       <div className="grid grid-cols-2 gap-4">
-        <div class="mt-4 grid items-start grid-cols-[150px_minmax(100px,100px)]">
+        <div class="mt-4 grid items-start grid-cols-[140px_minmax(30px,30px)]">
           <label class="block text-gray-700 text-sm font-bold" for="username">
             Route Call to Queue:
           </label>
@@ -26,7 +26,7 @@ const Routing = () => {
             placeholder="Call routing extension number"
           />
         </div>
-        <div class="mt-4 grid items-start grid-cols-[150px_minmax(100px,100px)]">
+        <div class="mt-4 grid items-start grid-cols-[140px_minmax(30px,30px)]">
           <label class="block text-gray-700 text-sm font-bold" for="username">
             Play options menu:
           </label>
@@ -46,7 +46,7 @@ const Routing = () => {
             placeholder="Menu options prompt"
           />
         </div>
-        <div class="mt-4 grid items-start grid-cols-[150px_minmax(100px,100px)]">
+        <div class="mt-4 grid items-start grid-cols-[140px_minmax(30px,30px)]">
           <label class="block text-gray-700 text-sm font-bold" for="username">
             Enable Voice Mail:
           </label>

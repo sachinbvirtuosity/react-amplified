@@ -6,7 +6,7 @@ const Queue = () => {
       <h2 className="text-center font-bold text-2xl">Queue Setup</h2>
       <hr className="border-line mt-2" />
       <div className="grid grid-cols-2 gap-4">
-        <div class="mt-4 grid items-start grid-cols-[150px_minmax(100px,100px)]">
+        <div class="mt-4 grid items-start grid-cols-[110px_minmax(30px,30px)]">
           <label class="block text-gray-700 text-sm font-bold" for="username">
             Enable Callback:
           </label>
