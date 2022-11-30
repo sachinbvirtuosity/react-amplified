@@ -19,10 +19,12 @@ type AAFPMainSetup @model {
     extn_num: String
     play_menu_optns_flg: String
     menu_optn_msg: String
-    queue_name: String
+    queue_arn: String
     voice_mail_flg: String
     last_update_by: String
     last_update_date: AWSDateTime
+    hours_of_operations_name: String
+    voice_mail_destn_email: String
 }
 
 type AAFPEmergencyMsgSetup @model {

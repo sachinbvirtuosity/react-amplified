@@ -22,10 +22,12 @@ export const onCreateAAFPMainSetup = /* GraphQL */ `
       extn_num
       play_menu_optns_flg
       menu_optn_msg
-      queue_name
+      queue_arn
       voice_mail_flg
       last_update_by
       last_update_date
+      hours_of_operations_name
+      voice_mail_destn_email
       createdAt
       updatedAt
     }
@@ -52,10 +54,12 @@ export const onUpdateAAFPMainSetup = /* GraphQL */ `
       extn_num
       play_menu_optns_flg
       menu_optn_msg
-      queue_name
+      queue_arn
       voice_mail_flg
       last_update_by
       last_update_date
+      hours_of_operations_name
+      voice_mail_destn_email
       createdAt
       updatedAt
     }
@@ -82,10 +86,12 @@ export const onDeleteAAFPMainSetup = /* GraphQL */ `
       extn_num
       play_menu_optns_flg
       menu_optn_msg
-      queue_name
+      queue_arn
       voice_mail_flg
       last_update_by
       last_update_date
+      hours_of_operations_name
+      voice_mail_destn_email
       createdAt
       updatedAt
     }
