@@ -8,32 +8,34 @@ import { Routing } from "./components/Routing";
 import { Queue } from "./components/Queue";
 import { Holiday } from "./components/Holiday";
 import { SpecialCondition } from "./components/SpecialCondition";
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
+import { withAuthenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
 import {
   createAAFPMainSetup,
   createAAFPEmergencyMsgSetup,
   createAAFPHolidayMsgSetup,
 } from "./graphql/mutations";
-import { Amplify, API,Auth } from "aws-amplify";
-import aws_exports from "./aws-exports"
+import { Amplify, API, Auth } from "aws-amplify";
+import aws_exports from "./aws-exports";
 import React, { useEffect, useState } from "react";
+import { Loader } from "./components/Loader";
 
-Amplify.configure(aws_exports)
-
+Amplify.configure(aws_exports);
 
 function App({ signOut, user }) {
-const [ authUser, setAuthUser ] = useState(undefined);
+  const [authUser, setAuthUser] = useState(undefined);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const user = Auth.currentAuthenticatedUser({
-      bypassCache: false
-    }).then(user => {
-      setAuthUser(user.attributes.email);
-      console.log("User Authenticated : " , user)
+      bypassCache: false,
     })
-    .catch(err => console.log("Error while authenticated user : ", err))
-  }, [])
+      .then(user => {
+        setAuthUser(user.attributes.email);
+        console.log("User Authenticated : ", user);
+      })
+      .catch(err => console.log("Error while authenticated user : ", err));
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -61,10 +63,8 @@ const [ authUser, setAuthUser ] = useState(undefined);
     },
     onSubmit: async function (values) {
       //console.log("Values are ", values);
-     
-
-
-      try{
+      setLoading(true);
+      try {
         const formDataMainSetup = {
           dialed_number: values.incomingNumber,
           main_greeting: values.welcomeMsg,
@@ -82,17 +82,17 @@ const [ authUser, setAuthUser ] = useState(undefined);
           menu_optn_msg: values.menuOptionsMsg,
           voice_mail_flg: values.enableVoiceMail,
           last_update_date: new Date().toISOString(),
-          last_update_by: authUser 
+          last_update_by: authUser,
         };
-  
+
         const formDataEmergencySetup = {
           emergency_msg: values.emergencyConditionMsg,
           active_flg: values.emergencyTurnedOn,
           id: new Date().toISOString(),
           last_update_date: new Date().toISOString(),
-          last_update_by: authUser 
+          last_update_by: authUser,
         };
-  
+
         const formDataHolidaySetup = {
           holiday_start_dt: values.sDate.toISOString(),
           holiday_end_dt: values.eDate.toISOString(),
@@ -100,45 +100,42 @@ const [ authUser, setAuthUser ] = useState(undefined);
           holiday_msg: values.holidayMsg,
           active_flg: values.active,
           last_update_by: authUser,
-          id: new Date().toISOString()
+          id: new Date().toISOString(),
         };
-        
+
         const mainSetupResult = await API.graphql({
-        query: createAAFPMainSetup,
-        variables: { input: formDataMainSetup }
-      
-      });
+          query: createAAFPMainSetup,
+          variables: { input: formDataMainSetup },
+        });
 
-      const emergencySetupResult = await API.graphql({
-        query: createAAFPEmergencyMsgSetup,
-        variables: { input: formDataEmergencySetup },
-      });
+        const emergencySetupResult = await API.graphql({
+          query: createAAFPEmergencyMsgSetup,
+          variables: { input: formDataEmergencySetup },
+        });
 
-      const holidaySetupResult = await API.graphql({
-        query: createAAFPHolidayMsgSetup,
-        variables: { input: formDataHolidaySetup },
-      });
-    
+        const holidaySetupResult = await API.graphql({
+          query: createAAFPHolidayMsgSetup,
+          variables: { input: formDataHolidaySetup },
+        });
 
-      console.log(
-        "Result of all Tables : ",
-        mainSetupResult,
-        emergencySetupResult,
-        holidaySetupResult
-      );
-    }
-      catch(err){
-        console.log(err)
+        setLoading(false);
+
+        console.log(
+          "Result of all Tables : ",
+          mainSetupResult,
+          emergencySetupResult,
+          holidaySetupResult
+        );
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
       }
-      
-
-      
     },
   });
 
-
   return (
     <div className="container mx-auto px-4">
+      <Loader loading={loading} />
       <header className="mt-2">
         <Header />
       </header>

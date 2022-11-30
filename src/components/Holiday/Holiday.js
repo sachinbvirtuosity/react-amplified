@@ -71,6 +71,7 @@ const Holiday = ({ formik }) => {
               setStartDate(date);
               formik.setFieldValue("sDate", date);
             }}
+            showTimeSelect
             value={formik.values.sdate}
             selectsStart
             startDate={startDate}
@@ -104,6 +105,7 @@ const Holiday = ({ formik }) => {
               setEndDate(date);
               formik.setFieldValue("eDate", date);
             }}
+            showTimeSelect
             selectsEnd
             value={formik.values.name}
             startDate={startDate}
