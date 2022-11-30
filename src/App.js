@@ -8,6 +8,12 @@ import { Routing } from "./components/Routing";
 import { Queue } from "./components/Queue";
 import { Holiday } from "./components/Holiday";
 import { SpecialCondition } from "./components/SpecialCondition";
+import {
+  createAAFPMainSetup,
+  createAAFPEmergencyMsgSetup,
+  createAAFPHolidayMsgSetup,
+} from "./graphql/mutations";
+import { API } from "aws-amplify";
 
 function App() {
   const formik = useFormik({
@@ -34,8 +40,60 @@ function App() {
       enableSpecialCondition: false,
       specialCondition: false,
     },
-    onSubmit: function (values) {
-      console.log("Values are ", values);
+    onSubmit: async function (values) {
+      //console.log("Values are ", values);
+      const formDataMainSetup = {
+        dialed_number: values.incomingNumber,
+        main_greeting: values.welcomeMsg,
+        after_hr_msg: values.afterHour,
+        enable_emergency_flg: values.emergencyTurnedOn,
+        no_agents_logged_in_flg: values.agentsNotAvailable,
+        agents_unstaffed_flg: values.agentsNotStaffed,
+        enable_callback_flg: values.enableCallBack,
+        enable_spcl_condtn_flg: values.enableSpecialCondition,
+        spcl_condtn_msg: values.specialCondition,
+        route_call_to_queue: values.routingCallToQueue,
+        queue_msg: values.queueMsg,
+        extn_num: values.callRoutingExtNumber,
+        play_menu_optns_flg: values.platOptionsMenu,
+        menu_optn_msg: values.menuOptionsMsg,
+        voice_mail_flg: values.enableVoiceMail,
+      };
+
+      const formDataEmergencySetup = {
+        emergency_msg: values.emergencyConditionMsg,
+        active_flg: values.emergencyTurnedOn,
+      };
+
+      const formDataHolidaySetup = {
+        holiday_start_dt: values.sDate,
+        holiday_end_dt: values.eDate,
+        holiday_type: values.holiday,
+        holiday_msg: values.holidayMsg,
+        active_flg: values.active,
+      };
+
+      const mainSetupResult = await API.graphql({
+        query: createAAFPMainSetup,
+        variables: { input: formDataMainSetup },
+      });
+
+      const emergencySetupResult = await API.graphql({
+        query: createAAFPEmergencyMsgSetup,
+        variables: { input: formDataEmergencySetup },
+      });
+
+      const holidaySetupResult = await API.graphql({
+        query: createAAFPHolidayMsgSetup,
+        variables: { input: formDataHolidaySetup },
+      });
+
+      console.log(
+        "Result of all Tables : ",
+        mainSetupResult,
+        emergencySetupResult,
+        holidaySetupResult
+      );
     },
   });
 
