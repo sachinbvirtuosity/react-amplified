@@ -1,8 +1,8 @@
 import React from "react";
 
-const Primary = () => {
+const Primary = ({ formik }) => {
   return (
-    <div className="primary-setup">
+    <div className="primary-setup border my-20 p-10 mt-7 shadow-md">
       <h2 className="text-center font-bold text-2xl">Primary Setup</h2>
       <hr className="border-line mt-2" />
       <div className="grid grid-cols-2 gap-4">
@@ -14,11 +14,22 @@ const Primary = () => {
             Incoming number:
           </label>
           <input
-            class="shadow appearance-none border w-full rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="incomingno"
+            className={`shadow appearance-none w-full rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+              formik.touched.name && formik.errors.name
+                ? "border-red-400"
+                : "border"
+            }`}
+            id="incomingNumber"
+            name="incomingNumber"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.name}
             type="text"
             placeholder="Incoming Number"
           />
+          {formik.touched.name && formik.errors.name && (
+            <span className="text-red-400">{formik.errors.name}</span>
+          )}
         </div>
         <div class="mt-4">
           <label
@@ -28,9 +39,17 @@ const Primary = () => {
             Welcome Prompt:
           </label>
           <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="incomingno"
+            className={`shadow appearance-none w-full rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+              formik.touched.name && formik.errors.name
+                ? "border-red-400"
+                : "border"
+            }`}
             type="text"
+            id="welcomeMsg"
+            name="welcomeMsg"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.name}
             placeholder="Welcome Prompt"
           />
         </div>
@@ -40,9 +59,11 @@ const Primary = () => {
           </label>
           <input
             className="ml-4"
-            id="incomingno"
+            id="afterHour"
+            name="afterHour"
+            onChange={formik.handleChange}
+            value={formik.values.name}
             type="checkbox"
-            placeholder="After hour prompt"
           />
         </div>
       </div>

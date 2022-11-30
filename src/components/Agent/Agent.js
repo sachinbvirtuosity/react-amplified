@@ -1,8 +1,8 @@
 import React from "react";
 
-const Agent = () => {
+const Agent = ({ formik }) => {
   return (
-    <div className="agent-setup my-20">
+    <div className="agent-setup my-20 border p-10 mt-7 shadow-md">
       <h2 className="text-center font-bold text-2xl">Agent Setup</h2>
       <hr className="border-line mt-2" />
       <div className="grid grid-cols-2 gap-4">
@@ -12,9 +12,10 @@ const Agent = () => {
           </label>
           <input
             className="ml-4"
-            id="incomingno"
+            id="agentsNotAvailable"
+            name="agentsNotAvailable"
             type="checkbox"
-            placeholder="Agents not available"
+            onChange={formik.handleChange}
           />
         </div>
         <div class="mt-4 flex">
@@ -23,9 +24,10 @@ const Agent = () => {
           </label>
           <input
             className="ml-4"
-            id="incomingno"
+            id="agentsNotStaffed"
+            name="agentsNotStaffed"
             type="checkbox"
-            placeholder="Agents not staffed"
+            onChange={formik.handleChange}
           />
         </div>
       </div>
