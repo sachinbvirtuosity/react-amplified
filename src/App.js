@@ -15,7 +15,10 @@ import {
   createAAFPEmergencyMsgSetup,
   createAAFPHolidayMsgSetup,
 } from "./graphql/mutations";
-import { API } from "aws-amplify";
+import { Amplify, API } from "aws-amplify";
+import aws_exports from "./aws-exports"
+
+Amplify.configure(aws_exports)
 
 
 function App({ signOut, user }) {
@@ -23,7 +26,7 @@ function App({ signOut, user }) {
     initialValues: {
       incomingNumber: "",
       welcomeMsg: "",
-      afterHour: false,
+      afterHour: "",
       agentsNotAvailable: false,
       agentsNotStaffed: false,
       emergencyTurnedOn: false,
@@ -45,40 +48,56 @@ function App({ signOut, user }) {
     },
     onSubmit: async function (values) {
       //console.log("Values are ", values);
-      const formDataMainSetup = {
-        dialed_number: values.incomingNumber,
-        main_greeting: values.welcomeMsg,
-        after_hr_msg: values.afterHour,
-        enable_emergency_flg: values.emergencyTurnedOn,
-        no_agents_logged_in_flg: values.agentsNotAvailable,
-        agents_unstaffed_flg: values.agentsNotStaffed,
-        enable_callback_flg: values.enableCallBack,
-        enable_spcl_condtn_flg: values.enableSpecialCondition,
-        spcl_condtn_msg: values.specialCondition,
-        route_call_to_queue: values.routingCallToQueue,
-        queue_msg: values.queueMsg,
-        extn_num: values.callRoutingExtNumber,
-        play_menu_optns_flg: values.platOptionsMenu,
-        menu_optn_msg: values.menuOptionsMsg,
-        voice_mail_flg: values.enableVoiceMail,
-      };
+     
 
-      const formDataEmergencySetup = {
-        emergency_msg: values.emergencyConditionMsg,
-        active_flg: values.emergencyTurnedOn,
-      };
 
-      const formDataHolidaySetup = {
-        holiday_start_dt: values.sDate,
-        holiday_end_dt: values.eDate,
-        holiday_type: values.holiday,
-        holiday_msg: values.holidayMsg,
-        active_flg: values.active,
-      };
-
-      const mainSetupResult = await API.graphql({
+      try{
+        const formDataMainSetup = {
+          dialed_number: values.incomingNumber,
+          main_greeting: values.welcomeMsg,
+          after_hr_msg: values.afterHour,
+          enable_emergency_flg: values.emergencyTurnedOn,
+          no_agents_logged_in_flg: values.agentsNotAvailable,
+          agents_unstaffed_flg: values.agentsNotStaffed,
+          enable_callback_flg: values.enableCallBack,
+          enable_spcl_condtn_flg: values.enableSpecialCondition,
+          spcl_condtn_msg: values.specialCondition,
+          route_call_to_queue: values.routingCallToQueue,
+          queue_msg: values.queueMsg,
+          extn_num: values.callRoutingExtNumber,
+          play_menu_optns_flg: values.platOptionsMenu,
+          menu_optn_msg: values.menuOptionsMsg,
+          voice_mail_flg: values.enableVoiceMail,
+          group_full_name: 'null',
+          group_name: 'null',
+          last_update_by: 'null',
+          last_update_date: new Date().toISOString(),
+          queue_name: 'null'
+        };
+  
+        const formDataEmergencySetup = {
+          emergency_msg: values.emergencyConditionMsg,
+          active_flg: values.emergencyTurnedOn,
+          id: new Date().toISOString(),
+          group_name: '',
+          last_update_by: '',
+          last_update_date: new Date().toISOString()
+        };
+  
+        const formDataHolidaySetup = {
+          // holiday_start_dt: values.sDate,
+          // holiday_end_dt: values.eDate,
+          holiday_start_dt: new Date(),
+          holiday_end_dt: new Date(),
+          holiday_type: values.holiday,
+          holiday_msg: values.holidayMsg,
+          active_flg: values.active,
+        };
+        
+        const mainSetupResult = await API.graphql({
         query: createAAFPMainSetup,
-        variables: { input: formDataMainSetup },
+        variables: { input: formDataMainSetup }
+      
       });
 
       const emergencySetupResult = await API.graphql({
@@ -90,6 +109,7 @@ function App({ signOut, user }) {
         query: createAAFPHolidayMsgSetup,
         variables: { input: formDataHolidaySetup },
       });
+    
 
       console.log(
         "Result of all Tables : ",
@@ -97,6 +117,13 @@ function App({ signOut, user }) {
         emergencySetupResult,
         holidaySetupResult
       );
+    }
+      catch(err){
+        console.log(err)
+      }
+      
+
+      
     },
   });
 
