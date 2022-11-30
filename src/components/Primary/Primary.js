@@ -11,10 +11,10 @@ const Primary = ({ formik }) => {
       <h2 className="text-center font-bold text-2xl">Primary Setup</h2>
       <hr className="border-line mt-2" />
       <div className="grid grid-cols-2 gap-4">
-        <div class="mt-4">
+        <div className="mt-4">
           <label
-            class="block text-gray-700 text-sm font-bold mb-2"
-            for="username"
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="username"
           >
             Incoming number:
           </label>
@@ -36,10 +36,10 @@ const Primary = ({ formik }) => {
             <span className="text-red-400">{formik.errors.name}</span>
           )}
         </div>
-        <div class="mt-4">
+        <div className="mt-4">
           <label
-            class="block text-gray-700 text-sm font-bold mb-2"
-            for="username"
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="username"
           >
             Welcome Prompt:
           </label>
@@ -58,8 +58,8 @@ const Primary = ({ formik }) => {
             placeholder="Welcome Prompt"
           />
         </div>
-        <div class="mt-4 flex">
-          <label class="block text-gray-700 text-sm font-bold" for="username">
+        <div className="mt-4 flex">
+          <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
             After Hour Prompt:
           </label>
           <input

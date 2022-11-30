@@ -15,13 +15,26 @@ import {
   createAAFPEmergencyMsgSetup,
   createAAFPHolidayMsgSetup,
 } from "./graphql/mutations";
-import { Amplify, API } from "aws-amplify";
+import { Amplify, API,Auth } from "aws-amplify";
 import aws_exports from "./aws-exports"
+import React, { useEffect, useState } from "react";
 
 Amplify.configure(aws_exports)
 
 
 function App({ signOut, user }) {
+const [ authUser, setAuthUser ] = useState(undefined);
+
+  useEffect(() => {
+    const user = Auth.currentAuthenticatedUser({
+      bypassCache: false
+    }).then(user => {
+      setAuthUser(user.attributes.email);
+      console.log("User Authenticated : " , user)
+    })
+    .catch(err => console.log("Error while authenticated user : ", err))
+  }, [])
+
   const formik = useFormik({
     initialValues: {
       incomingNumber: "",
@@ -68,30 +81,26 @@ function App({ signOut, user }) {
           play_menu_optns_flg: values.platOptionsMenu,
           menu_optn_msg: values.menuOptionsMsg,
           voice_mail_flg: values.enableVoiceMail,
-          group_full_name: 'null',
-          group_name: 'null',
-          last_update_by: 'null',
           last_update_date: new Date().toISOString(),
-          queue_name: 'null'
+          last_update_by: authUser 
         };
   
         const formDataEmergencySetup = {
           emergency_msg: values.emergencyConditionMsg,
           active_flg: values.emergencyTurnedOn,
           id: new Date().toISOString(),
-          group_name: '',
-          last_update_by: '',
-          last_update_date: new Date().toISOString()
+          last_update_date: new Date().toISOString(),
+          last_update_by: authUser 
         };
   
         const formDataHolidaySetup = {
-          // holiday_start_dt: values.sDate,
-          // holiday_end_dt: values.eDate,
-          holiday_start_dt: new Date(),
-          holiday_end_dt: new Date(),
+          holiday_start_dt: values.sDate.toISOString(),
+          holiday_end_dt: values.eDate.toISOString(),
           holiday_type: values.holiday,
           holiday_msg: values.holidayMsg,
           active_flg: values.active,
+          last_update_by: authUser,
+          id: new Date().toISOString()
         };
         
         const mainSetupResult = await API.graphql({
@@ -142,7 +151,7 @@ function App({ signOut, user }) {
         <Holiday formik={formik} />
         <SpecialCondition formik={formik} />
         <div className="submit-btn w-full flex justify-center">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-5 my-12">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-5 my-12">
             Save
           </button>
         </div>

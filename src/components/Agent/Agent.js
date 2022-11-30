@@ -6,8 +6,8 @@ const Agent = ({ formik }) => {
       <h2 className="text-center font-bold text-2xl">Agent Setup</h2>
       <hr className="border-line mt-2" />
       <div className="grid grid-cols-2 gap-4">
-        <div class="mt-4 flex">
-          <label class="block text-gray-700 text-sm font-bold" for="username">
+        <div className="mt-4 flex">
+          <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
             Agents not available:
           </label>
           <input
@@ -18,8 +18,8 @@ const Agent = ({ formik }) => {
             onChange={formik.handleChange}
           />
         </div>
-        <div class="mt-4 flex">
-          <label class="block text-gray-700 text-sm font-bold" for="username">
+        <div className="mt-4 flex">
+          <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
             Agents not staffed:
           </label>
           <input

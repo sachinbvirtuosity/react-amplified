@@ -24,7 +24,7 @@ const Routing = ({ formik }) => {
         <div className="mt-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            for="username"
+            htmlFor="username"
           >
             Call routing extension number:
           </label>
@@ -41,7 +41,7 @@ const Routing = ({ formik }) => {
         <div className="mt-4 grid items-start grid-cols-[140px_minmax(30px,30px)]">
           <label
             className="block text-gray-700 text-sm font-bold"
-            for="username"
+            htmlFor="username"
           >
             Play options menu:
           </label>
@@ -56,7 +56,7 @@ const Routing = ({ formik }) => {
         <div className="mt-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            for="username"
+            htmlFor="username"
           >
             Menu options prompt:
           </label>
@@ -73,7 +73,7 @@ const Routing = ({ formik }) => {
         <div className="mt-4 grid items-start grid-cols-[140px_minmax(30px,30px)]">
           <label
             className="block text-gray-700 text-sm font-bold"
-            for="username"
+            htmlFor="username"
           >
             Enable Voice Mail:
           </label>
