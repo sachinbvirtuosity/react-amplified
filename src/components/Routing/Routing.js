@@ -18,6 +18,7 @@ const Routing = ({ formik }) => {
             id="routingCallToQueue"
             name="routingCallToQueue"
             onChange={formik.handleChange}
+            checked={formik.values.routingCallToQueue}
             type="checkbox"
           />
         </div>
@@ -34,6 +35,7 @@ const Routing = ({ formik }) => {
             name="callRoutingExtNumber"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.callRoutingExtNumber}
             type="text"
             placeholder="Call routing extension number"
           />
@@ -50,6 +52,7 @@ const Routing = ({ formik }) => {
             id="platOptionsMenu"
             name="platOptionsMenu"
             onChange={formik.handleChange}
+            checked={formik.values.platOptionsMenu}
             type="checkbox"
           />
         </div>
@@ -66,6 +69,7 @@ const Routing = ({ formik }) => {
             name="menuOptionsMsg"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.menuOptionsMsg}
             type="text"
             placeholder="Menu options prompt"
           />
@@ -81,6 +85,7 @@ const Routing = ({ formik }) => {
             className="ml-4"
             id="enableVoiceMail"
             name="enableVoiceMail"
+            checked={formik.values.enableVoiceMail}
             onChange={formik.handleChange}
             type="checkbox"
           />

@@ -7,7 +7,10 @@ const Agent = ({ formik }) => {
       <hr className="border-line mt-2" />
       <div className="grid grid-cols-2 gap-4">
         <div className="mt-4 flex">
-          <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+          <label
+            className="block text-gray-700 text-sm font-bold"
+            htmlFor="username"
+          >
             Agents not available:
           </label>
           <input
@@ -16,10 +19,14 @@ const Agent = ({ formik }) => {
             name="agentsNotAvailable"
             type="checkbox"
             onChange={formik.handleChange}
+            checked={formik.values.agentsNotAvailable}
           />
         </div>
         <div className="mt-4 flex">
-          <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+          <label
+            className="block text-gray-700 text-sm font-bold"
+            htmlFor="username"
+          >
             Agents not staffed:
           </label>
           <input
@@ -28,6 +35,7 @@ const Agent = ({ formik }) => {
             name="agentsNotStaffed"
             type="checkbox"
             onChange={formik.handleChange}
+            checked={formik.values.agentsNotStaffed}
           />
         </div>
       </div>

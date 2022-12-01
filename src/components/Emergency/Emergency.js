@@ -18,6 +18,7 @@ const Emergency = ({ formik }) => {
             id="emergencyTurnedOn"
             name="emergencyTurnedOn"
             onChange={formik.handleChange}
+            checked={formik.values.emergencyTurnedOn}
             type="checkbox"
           />
         </div>
@@ -36,6 +37,7 @@ const Emergency = ({ formik }) => {
             onBlur={formik.handleBlur}
             type="text"
             placeholder="Emergency Condition Prompt"
+            value={formik.values.emergencyConditionMsg}
           />
         </div>
       </div>

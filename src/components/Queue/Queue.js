@@ -17,6 +17,7 @@ const Queue = ({ formik }) => {
             className="ml-4"
             id="enableCallBack"
             name="enableCallBack"
+            checked={formik.values.enableCallBack}
             onChange={formik.handleChange}
             type="checkbox"
           />
@@ -34,6 +35,7 @@ const Queue = ({ formik }) => {
             name="queueMsg"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            value={formik.values.queueMsg}
             type="text"
             placeholder="Queue Prompt"
           />

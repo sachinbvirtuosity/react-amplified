@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
 
 const Primary = ({ formik }) => {
-  const [showTextBox, setShowTextBox ]= useState(false)
+  const [showTextBox, setShowTextBox] = useState(false);
 
   const handleAfterHourChange = () => {
     setShowTextBox(!showTextBox);
-  }
+  };
   return (
     <div className="primary-setup border my-20 p-10 mt-7 shadow-md">
       <h2 className="text-center font-bold text-2xl">Primary Setup</h2>
@@ -28,7 +28,7 @@ const Primary = ({ formik }) => {
             name="incomingNumber"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.name}
+            value={formik.values.incomingNumber}
             type="text"
             placeholder="Incoming Number"
           />
@@ -54,12 +54,15 @@ const Primary = ({ formik }) => {
             name="welcomeMsg"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.name}
+            value={formik.values.welcomeMsg}
             placeholder="Welcome Prompt"
           />
         </div>
         <div className="mt-4 flex">
-          <label className="block text-gray-700 text-sm font-bold" htmlFor="username">
+          <label
+            className="block text-gray-700 text-sm font-bold"
+            htmlFor="username"
+          >
             After Hour Prompt:
           </label>
           <input
@@ -69,23 +72,21 @@ const Primary = ({ formik }) => {
           />
           {showTextBox && (
             <input
-            className={`shadow appearance-none w-full rounded ml-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-              formik.touched.name && formik.errors.name
-                ? "border-red-400"
-                : "border"
-            }`}
-            type="text"
-            id="afterHour"
-            name="afterHour"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.name}
-            placeholder="After Hour Prompt"
-          />
+              className={`shadow appearance-none w-full rounded ml-5 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                formik.touched.name && formik.errors.name
+                  ? "border-red-400"
+                  : "border"
+              }`}
+              type="text"
+              id="afterHour"
+              name="afterHour"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              checked={formik.values.afterHour}
+              placeholder="After Hour Prompt"
+            />
           )}
         </div>
-        
-        
       </div>
     </div>
   );

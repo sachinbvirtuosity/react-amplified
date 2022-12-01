@@ -19,14 +19,14 @@ import { Amplify, API, Auth } from "aws-amplify";
 import aws_exports from "./aws-exports";
 import React, { useEffect, useState } from "react";
 import { Loader } from "./components/Loader";
-import * as queries from './graphql/queries';
+import * as queries from "./graphql/queries";
 
 Amplify.configure(aws_exports);
 
 function App({ signOut, user }) {
   const [authUser, setAuthUser] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  const [ departments, setDepartments ] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     const user = Auth.currentAuthenticatedUser({
@@ -41,13 +41,13 @@ function App({ signOut, user }) {
 
   useEffect(() => {
     getAllMainSetup();
-  }, [])
+  }, []);
 
   const getAllMainSetup = async () => {
-    const allResult = await API.graphql({query: queries.listAAFPMainSetups});
+    const allResult = await API.graphql({ query: queries.listAAFPMainSetups });
     allResult.data ? setDepartments(allResult.data) : setDepartments([]);
-    console.log(allResult)
-  }
+    console.log(allResult);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -146,10 +146,10 @@ function App({ signOut, user }) {
   });
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container md:container sm:container mx-auto px-4">
       <Loader loading={loading} />
       <header className="mt-2">
-        <Header departments={departments} />
+        <Header departments={departments} formik={formik} />
       </header>
       <form onSubmit={formik.handleSubmit}>
         <Primary formik={formik} />
