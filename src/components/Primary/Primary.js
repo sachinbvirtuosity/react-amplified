@@ -5,7 +5,9 @@ const Primary = ({ formik }) => {
 
   const handleAfterHourChange = () => {
     setShowTextBox(!showTextBox);
+    formik.setFieldValue("afterHour", "");
   };
+
   return (
     <div className="primary-setup border my-20 p-10 mt-7 shadow-md">
       <h2 className="text-center font-bold text-2xl">Primary Setup</h2>
