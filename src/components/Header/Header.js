@@ -2,9 +2,9 @@ import React from "react";
 import { demoData } from "./data";
 
 const Header = ({ departments, formik }) => {
-  console.log("Departments: ", departments);
-  const { listAAFPMainSetups } = departments;
-  console.log(demoData);
+  debugger;
+  //console.log("Departments: ", departments);
+  console.log("Header Component", departments);
 
   const setFieldData = data => {
     formik.setFieldValue("incomingNumber", data.dialed_number);
@@ -32,7 +32,7 @@ const Header = ({ departments, formik }) => {
 
   return (
     <div className="flex mr-auto justify-end">
-      {listAAFPMainSetups.items.map((x, i) => {
+      {departments.items?.map((x, i) => {
         return (
           <button
             key={i}
