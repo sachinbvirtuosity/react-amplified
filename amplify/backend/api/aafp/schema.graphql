@@ -14,7 +14,7 @@ type AAFPMainSetup @model {
     enable_callback_flg: Boolean
     enable_spcl_condtn_flg: Boolean
     spcl_condtn_msg: String
-    route_call_to_queue: StringSSS
+    route_call_to_queue: String
     queue_msg: String
     extn_num: String
     play_menu_optns_flg: String

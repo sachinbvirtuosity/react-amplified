@@ -77,7 +77,7 @@ export const listAAFPMainSetups = /* GraphQL */ `
   }
 `;
 export const getAAFPEmergencyMsgSetup = /* GraphQL */ `
-  query GetAAFPEmergencyMsgSetup($id: AWSDateTime!) {
+  query GetAAFPEmergencyMsgSetup($id: ID!) {
     getAAFPEmergencyMsgSetup(id: $id) {
       id
       group_name
@@ -92,7 +92,7 @@ export const getAAFPEmergencyMsgSetup = /* GraphQL */ `
 `;
 export const listAAFPEmergencyMsgSetups = /* GraphQL */ `
   query ListAAFPEmergencyMsgSetups(
-    $id: AWSDateTime
+    $id: ID
     $filter: ModelAAFPEmergencyMsgSetupFilterInput
     $limit: Int
     $nextToken: String
@@ -120,7 +120,7 @@ export const listAAFPEmergencyMsgSetups = /* GraphQL */ `
   }
 `;
 export const getAAFPHolidayMsgSetup = /* GraphQL */ `
-  query GetAAFPHolidayMsgSetup($id: AWSDateTime!) {
+  query GetAAFPHolidayMsgSetup($id: ID!) {
     getAAFPHolidayMsgSetup(id: $id) {
       id
       holiday_start_dt
@@ -138,7 +138,7 @@ export const getAAFPHolidayMsgSetup = /* GraphQL */ `
 `;
 export const listAAFPHolidayMsgSetups = /* GraphQL */ `
   query ListAAFPHolidayMsgSetups(
-    $id: AWSDateTime
+    $id: ID
     $filter: ModelAAFPHolidayMsgSetupFilterInput
     $limit: Int
     $nextToken: String
