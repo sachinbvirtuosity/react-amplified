@@ -32,12 +32,12 @@ const Header = ({ departments, formik }) => {
 
   return (
     <div className="flex mr-auto justify-end">
-      {departments.items?.map((x, i) => {
+      {departments.listAAFPMainSetups?.items?.map((x, i) => {
         return (
           <button
             key={i}
             onClick={() => setFieldData(x)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-5"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-3"
           >
             {x.group_name}
           </button>
