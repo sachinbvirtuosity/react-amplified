@@ -14,7 +14,7 @@ type AAFPMainSetup @model {
     enable_callback_flg: Boolean
     enable_spcl_condtn_flg: Boolean
     spcl_condtn_msg: String
-    route_call_to_queue: String
+    route_call_to_queue: StringSSS
     queue_msg: String
     extn_num: String
     play_menu_optns_flg: String
@@ -28,7 +28,7 @@ type AAFPMainSetup @model {
 }
 
 type AAFPEmergencyMsgSetup @model {
-    id: AWSDateTime! @primaryKey
+    id: ID! @primaryKey
     group_name: String
     emergency_msg: String
     active_flg: Boolean
@@ -37,10 +37,10 @@ type AAFPEmergencyMsgSetup @model {
 }
 
 type AAFPHolidayMsgSetup @model {
-    id: AWSDateTime! @primaryKey
+    id: ID! @primaryKey
     holiday_start_dt: AWSDateTime
     holiday_end_dt: AWSDateTime
-    holiday_type: String
+    holiday_type: StringS
     group_name: String
     holiday_msg: String
     active_flg: Boolean
