@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = ({ departments, formik, holidayResult }) => {
+const Header = ({ departments, formik, holidayResult, setGroupName }) => {
   const setFieldData = data => {
     const { setFieldValue } = formik;
     for (const [key, value] of Object.entries(data)) {
@@ -22,6 +22,7 @@ const Header = ({ departments, formik, holidayResult }) => {
                 onClick={e => {
                   e.preventDefault();
                   setFieldData(items);
+                  setGroupName(items.group_name);
                 }}
               >
                 {items.group_name}

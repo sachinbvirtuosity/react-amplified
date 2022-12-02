@@ -16,6 +16,7 @@ import {
   createAAFPHolidayMsgSetup,
   updateAAFPHolidayMsgSetup,
   updateAAFPMainSetup,
+  updateAAFPEmergencyMsgSetup,
 } from "./graphql/mutations";
 import { Amplify, API, Auth } from "aws-amplify";
 import aws_exports from "./aws-exports";
@@ -35,31 +36,7 @@ function App({ signOut, user }) {
   const [loading, setLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
   const [holidayApiResult, setHolidayApiResult] = useState([]);
-  const [holidayList, setHolidayList] = useState([{ holiday: "1" }]);
-  const listOfHolidays = [
-    { value: "newYear", label: "New Year's Day" },
-    { value: "martinLutherKingDay", label: "Martin Luther King, Jr. Day" },
-    { value: "memorialDay", label: "Memorial Day" },
-    { value: "independenceDay", label: "Independence Day" },
-    { value: "laborDay", label: "Labor Day" },
-    { value: "thanksGivingDay", label: "Thanksgiving Day" },
-    { value: "christmasDay", label: "Christmas Day" },
-    { value: "dayAfterThanksGiving", label: "Day after Thanksgiving" },
-  ];
-
-  const holidayRef = React.createRef(null);
-  const handleAddHolidayList = newEle => {
-    setHolidayList(prevState => [...prevState, { holiday: "" }]);
-    if (holidayRef.current) {
-      holidayRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
-    }
-  };
-
-  const handleRemoveHolidayList = index => {
-    const list = [...holidayList];
-    list.splice(index, 1);
-    setHolidayList(list);
-  };
+  const [groupName, setGroupName] = useState("MRC");
 
   useEffect(() => {
     const user = Auth.currentAuthenticatedUser({
@@ -75,11 +52,74 @@ function App({ signOut, user }) {
     getAllMainSetup();
   }, []);
 
+  useEffect(() => {
+    getEmergencySetup();
+    getHolidayList();
+  }, [groupName]);
+
+  const getHolidayList = async () => {
+    const holidayResult = await API.graphql({
+      query: queries.listAAFPHolidayMsgSetups,
+      variables: { filter: { group_name: { eq: groupName } } },
+    });
+    holidayResult.data
+      ? setHolidayApiResult(holidayResult.data)
+      : setHolidayApiResult([]);
+    formik.setFieldValue(
+      "updated_holiday_msg_obj_list",
+      holidayResult.data.listAAFPHolidayMsgSetups?.items
+    );
+  };
+
+  const getEmergencySetup = async () => {
+    const emergencySetupResult = await API.graphql({
+      query: queries.listAAFPEmergencyMsgSetups,
+      variables: { filter: { group_name: { eq: groupName } } },
+    });
+
+    // const emergencyLatest =
+    //   emergencySetupResult.data.listAAFPEmergencyMsgSetups.items.length > 0
+    //     ? emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[
+    //         emergencySetupResult.data.listAAFPEmergencyMsgSetups.items.length -
+    //           1
+    //       ].emergency_msg
+    //     : "";
+    // console.log(emergencyLatest);
+    formik.setFieldValue(
+      "emergency_msg",
+      emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[0] &&
+        emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[0] !==
+          undefined
+        ? emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[0]
+            .emergency_msg
+        : ""
+    );
+  };
+
+  const findDuplicates = arr =>
+    arr.filter((item, index) => arr.indexOf(item) != index);
+
   const getAllMainSetup = async () => {
     const allResult = await API.graphql({ query: queries.listAAFPMainSetups });
     const holidayResult = await API.graphql({
       query: queries.listAAFPHolidayMsgSetups,
+      variables: { filter: { group_name: { eq: groupName } } },
     });
+    console.log("Holiday Result : ", holidayResult);
+    let holiday =
+      holidayResult.length > 0
+        ? formik.setFieldValue("updated_holiday_msg_obj_list", holidayResult)
+        : [];
+    const emergencySetupResult = await API.graphql({
+      query: queries.listAAFPEmergencyMsgSetups,
+      variables: { filter: { group_name: { eq: groupName } } },
+    });
+
+    formik.setFieldValue(
+      "emergency_msg",
+      emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[0]
+        .emergency_msg
+    );
     allResult.data ? setDepartments(allResult.data) : setDepartments([]);
     holidayResult.data
       ? setHolidayApiResult(holidayResult.data)
@@ -158,6 +198,7 @@ function App({ signOut, user }) {
         const formDataEmergencySetup = {
           emergency_msg: values.emergency_msg,
           active_flg: values.active_flg,
+          group_name: groupName,
           id: new Date().toISOString(),
           last_update_date: new Date().toISOString(),
           last_update_by: authUser,
@@ -174,18 +215,20 @@ function App({ signOut, user }) {
         });
 
         formik.values.updated_holiday_msg_obj_list.forEach(async items => {
-          try {
-            items.createdAt = new Date().toISOString();
-            items.updatedAt = new Date().toISOString();
-            items.id = new Date().toISOString();
-            items.last_update_by = authUser;
-            items.last_update_date = new Date().toISOString();
-            const holidaySetupResult = await API.graphql({
-              query: createAAFPHolidayMsgSetup,
-              variables: { input: items },
-            });
-          } catch (er) {
-            console.log("Error updating holidays : ", er);
+          if (!items.holiday_type) {
+            try {
+              items.createdAt = new Date().toISOString();
+              items.updatedAt = new Date().toISOString();
+              items.id = new Date().toISOString();
+              items.last_update_by = authUser;
+              items.last_update_date = new Date().toISOString();
+              const holidaySetupResult = await API.graphql({
+                query: createAAFPHolidayMsgSetup,
+                variables: { input: items },
+              });
+            } catch (er) {
+              console.log("Error updating holidays : ", er);
+            }
           }
         });
 
@@ -203,6 +246,7 @@ function App({ signOut, user }) {
         departments={departments}
         formik={formik}
         holidayResult={holidayApiResult}
+        setGroupName={setGroupName}
       />
       <section className="w-full h-full mt-5 mb-10">
         <div className="container lg:container md:container sm:container mx-auto px-4">
@@ -213,7 +257,11 @@ function App({ signOut, user }) {
               <Emergency formik={formik} />
               <Routing formik={formik} />
               <Queue formik={formik} />
-              <Holiday formik={formik} holidayResult={holidayApiResult} />
+              <Holiday
+                formik={formik}
+                holidayResult={holidayApiResult}
+                groupName={groupName}
+              />
               <SpecialCondition formik={formik} />
             </div>
             <div className="action-btn w-full flex justify-center">

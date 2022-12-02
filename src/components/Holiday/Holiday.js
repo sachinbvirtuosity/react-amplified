@@ -8,7 +8,7 @@ import removeIcon from "../../assets/img/remove.png";
 import moment from "moment";
 import ReactTooltip from "react-tooltip";
 
-const Holiday = ({ formik, holidayResult }) => {
+const Holiday = ({ formik, holidayResult, groupName }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -25,22 +25,36 @@ const Holiday = ({ formik, holidayResult }) => {
     { value: "dayAfterThanksGiving", label: "Day after Thanksgiving" },
   ];
 
+  const findDuplicates = (arr, len) => {
+    return arr.some(function (item) {
+      return arr.indexOf(item) !== arr.lastIndexOf(item);
+    });
+  };
+
   const holidayRef = React.createRef(null);
   const handleAddHolidayList = newEle => {
-    setHolidayList(prevState => [
-      ...prevState,
-      {
-        holiday_msg: formik.values.holiday_msg,
-        holiday_type: formik.values.holiday_type.label,
-        holiday_start_dt: moment(formik.values.holiday_start_dt).format(
-          "yyyy-MM-dd"
-        ),
-        holiday_end_dt: moment(formik.values.holiday_end_dt).format(
-          "yyyy-MM-dd"
-        ),
-        active_flg: formik.values.active_flg,
-      },
-    ]);
+    // let holidayFind = holidayList.filter(items => {
+    //   return !holidayList.includes(items.holiday_type);
+    // });
+
+    let holidayFind = Array.from(new Set(holidayList));
+    console.log(holidayFind);
+    if (holidayFind.length <= 1) {
+      setHolidayList(prevState => [
+        ...prevState,
+        {
+          holiday_msg: formik.values.holiday_msg,
+          holiday_type: formik.values.holiday_type.label,
+          holiday_start_dt: new Date(
+            formik.values.holiday_start_dt
+          ).toISOString(),
+          holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
+          active_flg: formik.values.active_flg,
+          group_name: groupName,
+        },
+      ]);
+    }
+
     if (holidayRef.current) {
       holidayRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
@@ -116,7 +130,10 @@ const Holiday = ({ formik, holidayResult }) => {
                 {holidayList && holidayList.length > 0 ? (
                   holidayList.map((items, index) => {
                     return (
-                      <tr className="text-ellipsis overflow-hidden text-center">
+                      <tr
+                        className="text-ellipsis overflow-hidden text-center"
+                        key={index}
+                      >
                         <td className="text-ellipsis overflow-hidden text-center">
                           <p data-tip={items.holiday_msg}>
                             {items.holiday_msg}
@@ -128,8 +145,8 @@ const Holiday = ({ formik, holidayResult }) => {
                           />
                         </td>
                         <td className="text-ellipsis overflow-hidden text-center">
-                          <p data-tip={items.holiday_type.label}>
-                            {items.holiday_type.label}
+                          <p data-tip={items.holiday_type}>
+                            {items.holiday_type}
                           </p>
                           <ReactTooltip
                             multiline={true}
@@ -138,10 +155,10 @@ const Holiday = ({ formik, holidayResult }) => {
                           />
                         </td>
                         <td className="text-ellipsis overflow-hidden text-center">
-                          {moment(items.holiday_start_dt).format("YYYY-MM-DD")}
+                          {moment(items.holiday_start_dt).format("yyyy-mm-dd")}
                         </td>
                         <td className="text-ellipsis overflow-hidden text-center">
-                          {moment(items.holiday_end_dt).format("YYYY-MM-DD")}
+                          {moment(items.holiday_end_dt).format("yyyy-mm-dd")}
                         </td>
                         <td className="text-ellipsis overflow-hidden text-center">
                           {items.active_flg ? "Yes" : "No"}
@@ -176,13 +193,10 @@ const Holiday = ({ formik, holidayResult }) => {
         </div>
       </div>
       <div className={`${holidayModal ? "" : "hidden"}`}>
-        <div
-          modal-backdrop=""
-          class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40"
-        ></div>
+        <div className="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40"></div>
         <div
           id="holidayModalModal"
-          tabindex="-1"
+          tabIndex={-1}
           aria-hidden={holidayModal ? "visible" : "hidden"}
           className="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
         >
@@ -206,9 +220,9 @@ const Holiday = ({ formik, holidayResult }) => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     ></path>
                   </svg>
                   <span className="sr-only">Close modal</span>
