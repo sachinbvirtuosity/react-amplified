@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API } from "aws-amplify";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 
@@ -7,6 +8,7 @@ import addIcon from "../../assets/img/add.png";
 import removeIcon from "../../assets/img/remove.png";
 import moment from "moment";
 import ReactTooltip from "react-tooltip";
+import { createAAFPHolidayMsgSetup } from "../../graphql/mutations";
 
 const Holiday = ({ formik, holidayResult, groupName }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,34 +27,47 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     { value: "dayAfterThanksGiving", label: "Day after Thanksgiving" },
   ];
 
-  const findDuplicates = (arr, len) => {
-    return arr.some(function (item) {
-      return arr.indexOf(item) !== arr.lastIndexOf(item);
-    });
-  };
-
+  
   const holidayRef = React.createRef(null);
-  const handleAddHolidayList = newEle => {
-    // let holidayFind = holidayList.filter(items => {
-    //   return !holidayList.includes(items.holiday_type);
-    // });
+  const handleAddHolidayList = async newEle => {
+    const holidayListFiltered  = holidayList.filter(holiday => holiday.holiday_type === formik.values.holiday_type.label)
 
-    let holidayFind = Array.from(new Set(holidayList));
-    console.log(holidayFind);
-    if (holidayFind.length <= 1) {
-      setHolidayList(prevState => [
-        ...prevState,
-        {
-          holiday_msg: formik.values.holiday_msg,
-          holiday_type: formik.values.holiday_type.label,
-          holiday_start_dt: new Date(
-            formik.values.holiday_start_dt
-          ).toISOString(),
-          holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
-          active_flg: formik.values.active_flg,
-          group_name: groupName,
-        },
-      ]);
+    if (!holidayListFiltered.length > 0) {
+      const newHolidayMessage = {
+        holiday_msg: formik.values.holiday_msg,
+        holiday_type: formik.values.holiday_type.label,
+        holiday_start_dt: new Date(
+          formik.values.holiday_start_dt
+        ).toISOString(),
+        holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
+        active_flg: formik.values.active_flg,
+        group_name: groupName,
+      }
+      
+      try {
+        const holidaySetupResult = await API.graphql({
+          query: createAAFPHolidayMsgSetup,
+          variables: { input: newHolidayMessage },
+        })
+
+        if (holidaySetupResult){
+          setHolidayList(prevState => [
+            ...prevState,
+            {
+              holiday_msg: formik.values.holiday_msg,
+              holiday_type: formik.values.holiday_type.label,
+              holiday_start_dt: new Date(
+                formik.values.holiday_start_dt
+              ).toISOString(),
+              holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
+              active_flg: formik.values.active_flg,
+              group_name: groupName,
+            },
+          ]);
+        }
+      } catch(e) {
+        console.log(`Error:${JSON.stringify(e)}`);
+      }
     }
 
     if (holidayRef.current) {
