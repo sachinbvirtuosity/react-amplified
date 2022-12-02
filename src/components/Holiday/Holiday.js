@@ -31,29 +31,31 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     });
   };
 
+  useEffect(() => {
+    if (holidayList && holidayList.length > 0) {
+      function getUniqueListBy(arr, key) {
+        return [...new Map(arr.map(item => [item[key], item])).values()];
+      }
+      const arr1 = getUniqueListBy(holidayList, "holiday_type");
+      setHolidayList(arr1);
+    }
+  }, [holidayList]);
+
   const holidayRef = React.createRef(null);
   const handleAddHolidayList = newEle => {
-    // let holidayFind = holidayList.filter(items => {
-    //   return !holidayList.includes(items.holiday_type);
-    // });
-
-    let holidayFind = Array.from(new Set(holidayList));
-    console.log(holidayFind);
-    if (holidayFind.length <= 1) {
-      setHolidayList(prevState => [
-        ...prevState,
-        {
-          holiday_msg: formik.values.holiday_msg,
-          holiday_type: formik.values.holiday_type.label,
-          holiday_start_dt: new Date(
-            formik.values.holiday_start_dt
-          ).toISOString(),
-          holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
-          active_flg: formik.values.active_flg,
-          group_name: groupName,
-        },
-      ]);
-    }
+    setHolidayList(prevState => [
+      ...prevState,
+      {
+        holiday_msg: formik.values.holiday_msg,
+        holiday_type: formik.values.holiday_type.label,
+        holiday_start_dt: new Date(
+          formik.values.holiday_start_dt
+        ).toISOString(),
+        holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
+        active_flg: formik.values.active_flg,
+        group_name: groupName,
+      },
+    ]);
 
     if (holidayRef.current) {
       holidayRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
