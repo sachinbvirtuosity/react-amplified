@@ -2,39 +2,50 @@ import React from "react";
 
 const SpecialCondition = ({ formik }) => {
   return (
-    <div className="special-condition-setup my-10 border p-10 mt-7 shadow-md">
-      <h2 className="text-center font-bold text-2xl">Special Condition</h2>
-      <hr className="border-line mt-2" />
-      <div className="grid grid-cols-2 gap-4">
-        <div className="mt-4 grid items-start grid-cols-[180px_minmax(30px,30px)]">
-          <label
-            className="block text-gray-700 text-sm font-bold"
-            htmlFor="enableSpecialCondition"
-          >
-            Enable special condition:
-          </label>
-          <input
-            className="ml-4"
-            id="enableSpecialCondition"
-            name="enableSpecialCondition"
-            onChange={formik.handleChange}
-            type="checkbox"
-          />
+    <div className="w-1/4 sm:w-full lg:w-1/4 md:w-1/4 mx-2">
+      <div className="panel action-card panel-default shadow-md">
+        <div className="panel-heading">
+          <h3 className="block text-gray-700 text-xs font-bold">
+            Special Condition Setup
+          </h3>
         </div>
-        <div className="mt-4 grid items-start grid-cols-[180px_minmax(30px,30px)]">
-          <label
-            className="block text-gray-700 text-sm font-bold"
-            htmlFor="specialCondition"
-          >
-            Special Condition Prompt:
-          </label>
-          <input
-            className="ml-4"
-            id="specialCondition"
-            name="specialCondition"
-            onChange={formik.handleChange}
-            type="checkbox"
-          />
+        <div className="panel-body">
+          <div className="flex flex-col">
+            <div className="form-group mb-4">
+              <label
+                className="block text-gray-700 text-xs font-semibold mb-1"
+                htmlFor="special condition prompt"
+              >
+                Special Condition Prompt:
+              </label>
+              <input
+                type="text"
+                id="spcl_condtn_msg"
+                name="spcl_condtn_msg"
+                value={formik.values.spcl_condtn_msg}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Special Condition Message"
+                className="w-full border border-slate-300 rounded py-1 px-2 text-gray-700 "
+              />
+            </div>
+            <div className="form-group mb-4 flex">
+              <label
+                className="block text-gray-700 text-xs font-semibold mb-1 w-28"
+                htmlFor="enable special condition"
+              >
+                Enable Special Condition:
+              </label>
+              <input
+                type="checkbox"
+                id="enable_spcl_condtn_flg"
+                name="enable_spcl_condtn_flg"
+                checked={formik.values.enable_spcl_condtn_flg}
+                onChange={formik.handleChange}
+                className="border border-slate-300 mx-2"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

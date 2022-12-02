@@ -2,43 +2,48 @@ import React from "react";
 
 const Queue = ({ formik }) => {
   return (
-    <div className="queue-setup my-20 border p-10 mt-7 shadow-md">
-      <h2 className="text-center font-bold text-2xl">Queue Setup</h2>
-      <hr className="border-line mt-2" />
-      <div className="grid grid-cols-2 gap-4">
-        <div className="mt-4 grid items-start grid-cols-[110px_minmax(30px,30px)]">
-          <label
-            className="block text-gray-700 text-sm font-bold"
-            htmlFor="username"
-          >
-            Enable Callback:
-          </label>
-          <input
-            className="ml-4"
-            id="enableCallBack"
-            name="enableCallBack"
-            checked={formik.values.enableCallBack}
-            onChange={formik.handleChange}
-            type="checkbox"
-          />
+    <div className="w-1/4 sm:w-full lg:w-1/4 md:w-1/4 mx-2">
+      <div className="panel action-card panel-default shadow-md">
+        <div className="panel-heading">
+          <h3 className="block text-gray-700 text-xs font-bold">Queue Setup</h3>
         </div>
-        <div className="mt-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="username"
-          >
-            Queue Prompt:
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="queueMsg"
-            name="queueMsg"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.queueMsg}
-            type="text"
-            placeholder="Queue Prompt"
-          />
+        <div className="panel-body">
+          <div className="flex flex-col">
+            <div className="form-group mb-4">
+              <label
+                className="block text-gray-700 text-xs font-semibold mb-1"
+                htmlFor="queue prompt"
+              >
+                Queue Prompt:
+              </label>
+              <input
+                type="text"
+                id="queue_msg"
+                name="queue_msg"
+                value={formik.values.queue_msg}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Queue Message"
+                className="w-full border border-slate-300 rounded py-1 px-2 text-gray-700"
+              />
+            </div>
+            <div className="form-group mb-4 flex">
+              <label
+                className="block text-gray-700 text-xs font-semibold mb-1"
+                htmlFor="agents not available"
+              >
+                Enable Callback:
+              </label>
+              <input
+                type="checkbox"
+                id="enable_callback_flg"
+                name="enable_callback_flg"
+                checked={formik.values.enable_callback_flg}
+                onChange={formik.handleChange}
+                className="border border-slate-300 mx-2"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

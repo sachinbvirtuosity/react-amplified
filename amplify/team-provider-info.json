@@ -12,11 +12,11 @@
       "AmplifyAppId": "d9hb08d1xrct8"
     },
     "categories": {
-      "api": {
-        "aafp": {}
-      },
       "auth": {
         "aafp8e3869df": {}
+      },
+      "api": {
+        "aafp": {}
       }
     }
   }

@@ -2,43 +2,50 @@ import React from "react";
 
 const Emergency = ({ formik }) => {
   return (
-    <div className="emergency-setup my-20 border p-10 mt-7 shadow-md">
-      <h2 className="text-center font-bold text-2xl">Emergency Setup</h2>
-      <hr className="border-line mt-2" />
-      <div className="grid grid-cols-2 gap-4">
-        <div className="mt-4 grid items-start grid-cols-[150px_minmax(30px,30px)]">
-          <label
-            className="block text-gray-700 text-sm font-bold"
-            htmlFor="username"
-          >
-            Emergency turned on:
-          </label>
-          <input
-            className="ml-4"
-            id="emergencyTurnedOn"
-            name="emergencyTurnedOn"
-            onChange={formik.handleChange}
-            checked={formik.values.emergencyTurnedOn}
-            type="checkbox"
-          />
+    <div className="w-1/5 sm:w-full lg:w-1/5 md:w-1/5 mx-2">
+      <div className="panel action-card panel-default shadow-md">
+        <div className="panel-heading">
+          <h3 className="block text-gray-700 text-xs font-bold">
+            Emergency Setup
+          </h3>
         </div>
-        <div className="mt-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="username"
-          >
-            Emergency Condition Prompt:
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="emergencyConditionMsg"
-            name="emergencyConditionMsg"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            type="text"
-            placeholder="Emergency Condition Prompt"
-            value={formik.values.emergencyConditionMsg}
-          />
+        <div className="panel-body">
+          <div className="flex flex-col">
+            <div className="form-group mb-4">
+              <label
+                className="block text-gray-700 text-xs font-semibold mb-1"
+                htmlFor="emergency condition prompt"
+              >
+                Emergency Condition Prompt:
+              </label>
+              <input
+                type="text"
+                id="emergency_msg"
+                name="emergency_msg"
+                value={formik.values.emergency_msg}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Emergency Message"
+                className="w-full border border-slate-300 rounded py-1 px-2 text-gray-700 "
+              />
+            </div>
+            <div className="form-group mb-4 flex">
+              <label
+                className="block text-gray-700 text-xs font-semibold mb-1"
+                htmlFor="emergency turned on"
+              >
+                Emergency Turned On:
+              </label>
+              <input
+                type="checkbox"
+                id="enable_emergency_flg"
+                name="enable_emergency_flg"
+                checked={formik.values.enable_emergency_flg}
+                onChange={formik.handleChange}
+                className="border border-slate-300 mx-2"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

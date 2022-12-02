@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.min.css";
+import addIcon from "../../assets/img/add.png";
+import removeIcon from "../../assets/img/remove.png";
+import moment from "moment";
+import ReactTooltip from "react-tooltip";
 
-const Holiday = ({ formik }) => {
-  const [isClearable, setIsClearable] = useState(true);
-  const [isSearchable, setIsSearchable] = useState(true);
-  const [isDisabled, setIsDisabled] = useState(false);
+const Holiday = ({ formik, holidayResult }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isRtl, setIsRtl] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [holidayList, setHolidayList] = useState([{ holiday: "1" }]);
+  const [holidayList, setHolidayList] = useState([]);
+  const [holidayModal, setHolidayModal] = useState(false);
   const listOfHolidays = [
     { value: "newYear", label: "New Year's Day" },
     { value: "martinLutherKingDay", label: "Martin Luther King, Jr. Day" },
@@ -26,182 +27,352 @@ const Holiday = ({ formik }) => {
 
   const holidayRef = React.createRef(null);
   const handleAddHolidayList = newEle => {
-    setHolidayList(prevState => [...prevState, { holiday: "" }]);
+    setHolidayList(prevState => [
+      ...prevState,
+      {
+        holiday_msg: formik.values.holiday_msg,
+        holiday_type: formik.values.holiday_type.label,
+        holiday_start_dt: moment(formik.values.holiday_start_dt).format(
+          "yyyy-MM-dd"
+        ),
+        holiday_end_dt: moment(formik.values.holiday_end_dt).format(
+          "yyyy-MM-dd"
+        ),
+        active_flg: formik.values.active_flg,
+      },
+    ]);
     if (holidayRef.current) {
       holidayRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   };
+  useEffect(() => {
+    formik.setFieldValue("updated_holiday_msg_obj_list", holidayList);
+  }, [holidayList]);
+
+  useEffect(() => {
+    setHolidayList(holidayResult.listAAFPHolidayMsgSetups?.items);
+  }, [holidayResult]);
 
   const handleRemoveHolidayList = index => {
     const list = [...holidayList];
     list.splice(index, 1);
     setHolidayList(list);
+    hideModal();
+  };
+
+  const showModal = () => {
+    const { setFieldValue } = formik;
+    setFieldValue("holiday_msg", "");
+    setFieldValue("holiday_start_dt", "");
+    setFieldValue("holiday_end_dt", "");
+    setFieldValue("holiday_type", "");
+    setFieldValue("active_flg", false);
+    setHolidayModal(true);
+  };
+
+  const hideModal = () => {
+    setHolidayModal(false);
   };
 
   return (
-    <div className="holiday-setup my-20 border p-10 mt-7 shadow-md">
-      <div className="flex card-header justify-center">
-        <div className="header-text w-full">
-          <h2 className="text-center font-bold text-2xl">Holiday Setup</h2>
-        </div>
-        <div className="action-btn">
-          <button
-            onClick={handleAddHolidayList}
-            className="bg-blue-500 text-sm hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-5"
-          >
-            Add
-          </button>
+    <>
+      <div className="w-5/12 sm:w-full lg:w-5/12 md:w-5/12 mx-2">
+        <div className="panel action-card panel-default shadow-md">
+          <div className="panel-heading flex">
+            <h3 className="block text-gray-700 text-xs font-bold w-4/6">
+              Holiday Setup
+            </h3>
+            <span className="ml-auto">
+              <a href={void 0} onClick={showModal} className="cursor-pointer">
+                <img src={addIcon} className="w-5" />
+              </a>
+            </span>
+          </div>
+          <div className="panel-body">
+            <table className="table-fixed text-xs holiday-table w-full">
+              <thead>
+                <tr>
+                  <th className="border-b dark:border-slate-600 font-xs p-2 pl-2 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                    Message
+                  </th>
+                  <th className="border-b dark:border-slate-600 font-xs p-2 pl-2 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                    Holiday
+                  </th>
+                  <th className="border-b dark:border-slate-600 font-xs p-2 pl-2 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                    Start Date
+                  </th>
+                  <th className="border-b dark:border-slate-600 font-xs p-2 pl-2 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                    End Date
+                  </th>
+                  <th className="border-b dark:border-slate-600 font-xs p-1 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                    Active
+                  </th>
+                  <th className="border-b dark:border-slate-600 font-xs p-1 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {holidayList && holidayList.length > 0 ? (
+                  holidayList.map((items, index) => {
+                    return (
+                      <tr className="text-ellipsis overflow-hidden text-center">
+                        <td className="text-ellipsis overflow-hidden text-center">
+                          <p data-tip={items.holiday_msg}>
+                            {items.holiday_msg}
+                          </p>
+                          <ReactTooltip
+                            multiline={true}
+                            effect={"float"}
+                            place="top"
+                          />
+                        </td>
+                        <td className="text-ellipsis overflow-hidden text-center">
+                          <p data-tip={items.holiday_type.label}>
+                            {items.holiday_type.label}
+                          </p>
+                          <ReactTooltip
+                            multiline={true}
+                            effect={"float"}
+                            place="top"
+                          />
+                        </td>
+                        <td className="text-ellipsis overflow-hidden text-center">
+                          {moment(items.holiday_start_dt).format("YYYY-MM-DD")}
+                        </td>
+                        <td className="text-ellipsis overflow-hidden text-center">
+                          {moment(items.holiday_end_dt).format("YYYY-MM-DD")}
+                        </td>
+                        <td className="text-ellipsis overflow-hidden text-center">
+                          {items.active_flg ? "Yes" : "No"}
+                        </td>
+                        <td>
+                          <span>
+                            <a
+                              href={void 0}
+                              className="cursor-pointer"
+                              onClick={() => handleRemoveHolidayList(index)}
+                            >
+                              <img src={removeIcon} className="w-5" />
+                            </a>
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={6}
+                      className="font-semibold text-md text-center"
+                    >
+                      No Holiday Added
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      <hr className="border-line mt-2" />
-      {holidayList.map((items, index) => {
-        return (
-          <>
-            <div
-              className={`grid grid-cols-2 gap-4 holiday-grid ${
-                index > 0 ? "border-top mt-7 pt-5" : ""
-              }`}
-              key={index}
-            >
-              {index >= 1 && (
-                <div className="text-end">
-                  <button
-                    onClick={() => handleRemoveHolidayList(index)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-5"
+      <div className={`${holidayModal ? "" : "hidden"}`}>
+        <div
+          modal-backdrop=""
+          class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40"
+        ></div>
+        <div
+          id="holidayModalModal"
+          tabindex="-1"
+          aria-hidden={holidayModal ? "visible" : "hidden"}
+          className="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full"
+        >
+          <div className="relative w-full h-full max-w-2xl md:h-auto m-auto">
+            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Holiday Setup
+                </h3>
+                <button
+                  type="button"
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  data-modal-toggle="holidayModal"
+                  onClick={hideModal}
+                >
+                  <svg
+                    aria-hidden="true"
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    Remove
-                  </button>
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-6 space-y-6">
+                <div className="holiday-container">
+                  <div className="form-group mb-4 flex">
+                    <label
+                      className="w-1/4 block text-gray-700 text-xs font-semibold mb-1 m-auto"
+                      htmlFor="holiday prompt"
+                    >
+                      Holiday Prompt:
+                    </label>
+                    <input
+                      type="text"
+                      id="holiday_msg"
+                      name="holiday_msg"
+                      placeholder="Holiday Message"
+                      value={formik.values.holiday_msg}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="w-3/4 border border-slate-300 rounded py-1 px-2 text-gray-700"
+                    />
+                  </div>
+                  <div className="form-group mb-4 flex">
+                    <label
+                      className="w-1/4 block text-gray-700 text-xs font-semibold mb-1 m-auto"
+                      htmlFor="holiday"
+                    >
+                      Holiday:
+                    </label>
+                    <Select
+                      className="w-3/4"
+                      classNamePrefix="select"
+                      isDisabled={false}
+                      isLoading={isLoading}
+                      isClearable={true}
+                      options={listOfHolidays}
+                      isSearchable={true}
+                      name="holiday_type"
+                      id="holiday_type"
+                      placeholder="Select"
+                      value={formik.values.holiday_type}
+                      onChange={d => formik.setFieldValue("holiday_type", d)}
+                    />
+                  </div>
+                  <div className="form-group mb-4 flex">
+                    <label
+                      className="w-1/4 block text-gray-700 text-xs font-semibold mb-1 m-auto"
+                      htmlFor="holiday start date"
+                    >
+                      Start Date:
+                    </label>
+                    <DatePicker
+                      selected={startDate}
+                      id="holiday_start_dt"
+                      name="holiday_start_dt"
+                      onChange={date => {
+                        setStartDate(date);
+                        formik.setFieldValue("holiday_start_dt", date);
+                      }}
+                      minDate={moment().toDate()}
+                      placeholderText="Select"
+                      showTimeSelect
+                      value={formik.values.holiday_start_dt}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                      popperPlacement="top-start"
+                      popperModifiers={[
+                        {
+                          name: "arrow",
+                          options: {
+                            padding: ({ popper, reference, placement }) => ({
+                              right:
+                                Math.min(popper.width, reference.width) - 120,
+                            }),
+                          },
+                        },
+                      ]}
+                      className="shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                  </div>
+                  <div className="form-group mb-4 flex">
+                    <label
+                      className="w-1/4 block text-gray-700 text-xs font-semibold mb-1 m-auto"
+                      htmlFor="holiday end date"
+                    >
+                      End Date:
+                    </label>
+                    <DatePicker
+                      selected={endDate}
+                      id="holiday_end_dt"
+                      name="holiday_end_dt"
+                      onChange={date => {
+                        setEndDate(date);
+                        formik.setFieldValue("holiday_end_dt", date);
+                      }}
+                      placeholderText="Select"
+                      showTimeSelect
+                      selectsEnd
+                      value={formik.values.holiday_end_dt}
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
+                      popperModifiers={[
+                        {
+                          name: "arrow",
+                          options: {
+                            padding: ({ popper, reference, placement }) => ({
+                              right:
+                                Math.min(popper.width, reference.width) - 120,
+                            }),
+                          },
+                        },
+                      ]}
+                      className="shadow appearance-none border w-full rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                  </div>
+                  <div className="form-group mb-4 flex">
+                    <label
+                      className="block w-1/4 text-gray-700 text-xs font-semibold mb-1"
+                      htmlFor="active"
+                    >
+                      Active:
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="active_flg"
+                      name="active_flg"
+                      checked={formik.values.active_flg}
+                      onChange={formik.handleChange}
+                      className="border border-slate-300 mx-2"
+                    />
+                  </div>
                 </div>
-              )}
-
-              <div className="mt-4" ref={holidayRef}>
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
-                >
-                  Holiday Prompt:
-                </label>
-                <input
-                  className="shadow appearance-none border w-full rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="holidayMsg"
-                  name="holidayMsg"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.name}
-                  type="text"
-                  placeholder="Holiday Prompt"
-                />
               </div>
-              <div className="mt-4">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
-                >
-                  Holiday:
-                </label>
-                <Select
-                  className="basic-single"
-                  classNamePrefix="select"
-                  isDisabled={isDisabled}
-                  isLoading={isLoading}
-                  isClearable={true}
-                  options={listOfHolidays}
-                  isSearchable={isSearchable}
-                  name="holiday"
-                  id="holiday"
-                  placeholder="Select"
-                  value={formik.values.name}
-                  onChange={d => formik.setFieldValue("holiday", d.label)}
-                />
-              </div>
-              <div className="mt-7">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
-                >
-                  Start Date:
-                </label>
-                <DatePicker
-                  selected={startDate}
-                  id="sDate"
-                  name="sDate"
-                  onChange={date => {
-                    setStartDate(date);
-                    formik.setFieldValue("sDate", date);
+              <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button
+                  onClick={() => {
+                    handleAddHolidayList();
+                    hideModal();
                   }}
-                  showTimeSelect
-                  value={formik.values.sdate}
-                  selectsStart
-                  startDate={startDate}
-                  endDate={endDate}
-                  popperPlacement="top-start"
-                  popperModifiers={[
-                    {
-                      name: "arrow",
-                      options: {
-                        padding: ({ popper, reference, placement }) => ({
-                          right: Math.min(popper.width, reference.width) - 120,
-                        }),
-                      },
-                    },
-                  ]}
-                  className="shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mt-7">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="username"
+                  data-modal-toggle="holidayModal"
+                  type="button"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
-                  End Date:
-                </label>
-                <DatePicker
-                  selected={endDate}
-                  id="eDate"
-                  name="eDate"
-                  onChange={date => {
-                    setEndDate(date);
-                    formik.setFieldValue("eDate", date);
-                  }}
-                  showTimeSelect
-                  selectsEnd
-                  value={formik.values.name}
-                  startDate={startDate}
-                  endDate={endDate}
-                  minDate={startDate}
-                  popperModifiers={[
-                    {
-                      name: "arrow",
-                      options: {
-                        padding: ({ popper, reference, placement }) => ({
-                          right: Math.min(popper.width, reference.width) - 120,
-                        }),
-                      },
-                    },
-                  ]}
-                  className="shadow appearance-none border w-full rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                />
-              </div>
-              <div className="mt-4 flex">
-                <label
-                  className="block text-gray-700 text-sm font-bold"
-                  htmlFor="active"
+                  Save
+                </button>
+                <button
+                  data-modal-toggle="holidayModal"
+                  type="button"
+                  onClick={() => setHolidayModal(false)}
+                  className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
                 >
-                  Active:
-                </label>
-                <input
-                  className="ml-4"
-                  id="active"
-                  name="active"
-                  onChange={formik.handleChange}
-                  type="checkbox"
-                />
+                  Close
+                </button>
               </div>
             </div>
-          </>
-        );
-      })}
-    </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
