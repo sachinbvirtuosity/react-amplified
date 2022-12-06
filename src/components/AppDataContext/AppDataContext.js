@@ -89,7 +89,7 @@ const AppDataProvider = ({children}) => {
     }, [selectedDepartmentPhone])
 
     const updateMainData = async (id, updated) => {
-        // TODO
+        // TODO - move logic here later
     };
 
     const getHolidayData = async () => {
@@ -109,14 +109,14 @@ const AppDataProvider = ({children}) => {
 
     useEffect(() => {
         getHolidayData()
-    }, [selectedDepartmentPhone])
+    }, [selectedDepartmentGroupName])
 
     const addHolidayDataListItem = async (newHolidayData) => {
-        // TODO
+        // TODO - move logic here later
     };
 
     const deleteHolidayDataListItem = async (id) => {
-        // TODO
+        // TODO - move logic here later
     };
 
     const getEmergencyData = async () => {

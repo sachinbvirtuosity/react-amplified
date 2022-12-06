@@ -199,11 +199,11 @@ function App({ signOut, user }) {
               <Holiday
                 formik={formik}
                 holidayResult={context.holidayData}
-                dialedNumber={context.setSelectedDepartmentPhone}
+                dialedNumber={context.selectedDepartmentGroupName}
               />
               <SpecialCondition formik={formik} />
             </div>
-            <div className="action-btn w-full flex justify-center">
+            <div className="action-btn w-full flex justify-end">
               <button type="submit" className="bg-blue-500 hover:bg-blue-700 w-1/5 text-white font-bold py-2 px-4 rounded">
                 Save
               </button>

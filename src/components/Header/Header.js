@@ -29,7 +29,7 @@ const Header = ({ departments, formik, holidayResult, setGroupName }) => {
           return (
             <li className="mr-3" key={`${item.group_name}-${index}`}>
               <a
-                className="inline-block cursor-pointer border border-blue-500 rounded py-1 px-3 bg-blue-500 text-white"
+                className="inline-block cursor-pointer border border-blue-500 py-1 px-3 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded"
                 onClick={(event) => handleDepartmentClick(event, item.dialed_number, item.group_name)}
               >
                 {item.group_name}

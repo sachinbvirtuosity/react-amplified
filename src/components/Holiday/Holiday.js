@@ -12,10 +12,11 @@ import { createAAFPHolidayMsgSetup, deleteAAFPHolidayMsgSetup } from "../../grap
 import { useAppDataContext } from "../AppDataContext/AppDataContext";
 
 const Holiday = ({ formik, holidayResult, groupName }) => {
+  const context = useAppDataContext()
   //const [isLoading, setIsLoading] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [holidayList, setHolidayList] = useState([]);
+  //const [holidayList, setHolidayList] = useState(context.holidayData);
   const [holidayModal, setHolidayModal] = useState(false);
   const listOfHolidays = [
     { value: "newYear", label: "New Year's Day" },
@@ -28,19 +29,19 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     { value: "dayAfterThanksGiving", label: "Day after Thanksgiving" },
   ];
 
-  const context = useAppDataContext()
+  
   const holidayRef = React.createRef(null);
  
   useEffect(() => {
-    formik.setFieldValue("updated_holiday_msg_obj_list", holidayList);
-  }, [holidayList]);
+    formik.setFieldValue("updated_holiday_msg_obj_list", context.holidayData?.listAAFPHolidayMsgSetups?.items);
+  }, [context.holidayData]);
 
   // useEffect(() => {
   //   setHolidayList(holidayResult.listAAFPHolidayMsgSetups?.items);
   // }, [holidayResult]);
 
   const handleAddHolidayList = useCallback(async () => {
-    const holidayListFiltered  = context.holidayData.filter(holiday => holiday.holiday_type === formik.values.holiday_type.label)
+    const holidayListFiltered  = context.holidayData?.listAAFPHolidayMsgSetups?.items?.filter(holiday => holiday.holiday_type === formik.values.holiday_type.label)
 
     if (!holidayListFiltered.length > 0) {
       const newHolidayMessage = {
@@ -60,21 +61,21 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
           variables: { input: newHolidayMessage },
         })
 
-        if (holidaySetupResult){
-          setHolidayList(prevState => [
-            ...prevState,
-            {
-              holiday_msg: formik.values.holiday_msg,
-              holiday_type: formik.values.holiday_type.label,
-              holiday_start_dt: new Date(
-                formik.values.holiday_start_dt
-              ).toISOString(),
-              holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
-              active_flg: formik.values.active_flg,
-              group_name: groupName,
-            },
-          ]);
-        }
+      //   if (holidaySetupResult){
+      //     setHolidayList(prevState => [
+      //       ...prevState,
+      //       {
+      //         holiday_msg: formik.values.holiday_msg,
+      //         holiday_type: formik.values.holiday_type.label,
+      //         holiday_start_dt: new Date(
+      //           formik.values.holiday_start_dt
+      //         ).toISOString(),
+      //         holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
+      //         active_flg: formik.values.active_flg,
+      //         group_name: groupName,
+      //       },
+      //     ]);
+      //   }
       } catch(e) {
         console.log(`Error:${JSON.stringify(e)}`);
       }
@@ -152,8 +153,8 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                 </tr>
               </thead>
               <tbody>
-                {holidayList && holidayList.length > 0 ? (
-                  holidayList.map((items, index) => {
+                {context.holidayData?.listAAFPHolidayMsgSetups?.items ? (
+                  context.holidayData.listAAFPHolidayMsgSetups.items.map((items, index) => {
                     return (
                       <tr
                         className="text-ellipsis overflow-hidden text-center"
