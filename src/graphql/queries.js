@@ -4,6 +4,7 @@
 export const getAAFPMainSetup = /* GraphQL */ `
   query GetAAFPMainSetup($dialed_number: String!) {
     getAAFPMainSetup(dialed_number: $dialed_number) {
+      id
       dialed_number
       group_full_name
       group_name
@@ -47,6 +48,7 @@ export const listAAFPMainSetups = /* GraphQL */ `
       sortDirection: $sortDirection
     ) {
       items {
+        id
         dialed_number
         group_full_name
         group_name

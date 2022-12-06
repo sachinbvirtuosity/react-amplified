@@ -2,10 +2,9 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateAAFPMainSetup = /* GraphQL */ `
-  subscription OnCreateAAFPMainSetup(
-    $filter: ModelSubscriptionAAFPMainSetupFilterInput
-  ) {
-    onCreateAAFPMainSetup(filter: $filter) {
+  subscription OnCreateAAFPMainSetup {
+    onCreateAAFPMainSetup {
+      id
       dialed_number
       group_full_name
       group_name
@@ -34,10 +33,9 @@ export const onCreateAAFPMainSetup = /* GraphQL */ `
   }
 `;
 export const onUpdateAAFPMainSetup = /* GraphQL */ `
-  subscription OnUpdateAAFPMainSetup(
-    $filter: ModelSubscriptionAAFPMainSetupFilterInput
-  ) {
-    onUpdateAAFPMainSetup(filter: $filter) {
+  subscription OnUpdateAAFPMainSetup {
+    onUpdateAAFPMainSetup {
+      id
       dialed_number
       group_full_name
       group_name
@@ -66,10 +64,9 @@ export const onUpdateAAFPMainSetup = /* GraphQL */ `
   }
 `;
 export const onDeleteAAFPMainSetup = /* GraphQL */ `
-  subscription OnDeleteAAFPMainSetup(
-    $filter: ModelSubscriptionAAFPMainSetupFilterInput
-  ) {
-    onDeleteAAFPMainSetup(filter: $filter) {
+  subscription OnDeleteAAFPMainSetup {
+    onDeleteAAFPMainSetup {
+      id
       dialed_number
       group_full_name
       group_name
@@ -98,10 +95,8 @@ export const onDeleteAAFPMainSetup = /* GraphQL */ `
   }
 `;
 export const onCreateAAFPEmergencyMsgSetup = /* GraphQL */ `
-  subscription OnCreateAAFPEmergencyMsgSetup(
-    $filter: ModelSubscriptionAAFPEmergencyMsgSetupFilterInput
-  ) {
-    onCreateAAFPEmergencyMsgSetup(filter: $filter) {
+  subscription OnCreateAAFPEmergencyMsgSetup {
+    onCreateAAFPEmergencyMsgSetup {
       id
       group_name
       emergency_msg
@@ -114,10 +109,8 @@ export const onCreateAAFPEmergencyMsgSetup = /* GraphQL */ `
   }
 `;
 export const onUpdateAAFPEmergencyMsgSetup = /* GraphQL */ `
-  subscription OnUpdateAAFPEmergencyMsgSetup(
-    $filter: ModelSubscriptionAAFPEmergencyMsgSetupFilterInput
-  ) {
-    onUpdateAAFPEmergencyMsgSetup(filter: $filter) {
+  subscription OnUpdateAAFPEmergencyMsgSetup {
+    onUpdateAAFPEmergencyMsgSetup {
       id
       group_name
       emergency_msg
@@ -130,10 +123,8 @@ export const onUpdateAAFPEmergencyMsgSetup = /* GraphQL */ `
   }
 `;
 export const onDeleteAAFPEmergencyMsgSetup = /* GraphQL */ `
-  subscription OnDeleteAAFPEmergencyMsgSetup(
-    $filter: ModelSubscriptionAAFPEmergencyMsgSetupFilterInput
-  ) {
-    onDeleteAAFPEmergencyMsgSetup(filter: $filter) {
+  subscription OnDeleteAAFPEmergencyMsgSetup {
+    onDeleteAAFPEmergencyMsgSetup {
       id
       group_name
       emergency_msg
@@ -146,10 +137,8 @@ export const onDeleteAAFPEmergencyMsgSetup = /* GraphQL */ `
   }
 `;
 export const onCreateAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnCreateAAFPHolidayMsgSetup(
-    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
-  ) {
-    onCreateAAFPHolidayMsgSetup(filter: $filter) {
+  subscription OnCreateAAFPHolidayMsgSetup {
+    onCreateAAFPHolidayMsgSetup {
       id
       holiday_start_dt
       holiday_end_dt
@@ -165,10 +154,8 @@ export const onCreateAAFPHolidayMsgSetup = /* GraphQL */ `
   }
 `;
 export const onUpdateAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnUpdateAAFPHolidayMsgSetup(
-    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
-  ) {
-    onUpdateAAFPHolidayMsgSetup(filter: $filter) {
+  subscription OnUpdateAAFPHolidayMsgSetup {
+    onUpdateAAFPHolidayMsgSetup {
       id
       holiday_start_dt
       holiday_end_dt
@@ -184,10 +171,8 @@ export const onUpdateAAFPHolidayMsgSetup = /* GraphQL */ `
   }
 `;
 export const onDeleteAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnDeleteAAFPHolidayMsgSetup(
-    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
-  ) {
-    onDeleteAAFPHolidayMsgSetup(filter: $filter) {
+  subscription OnDeleteAAFPHolidayMsgSetup {
+    onDeleteAAFPHolidayMsgSetup {
       id
       holiday_start_dt
       holiday_end_dt

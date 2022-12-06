@@ -7,6 +7,7 @@ export const createAAFPMainSetup = /* GraphQL */ `
     $condition: ModelAAFPMainSetupConditionInput
   ) {
     createAAFPMainSetup(input: $input, condition: $condition) {
+      id
       dialed_number
       group_full_name
       group_name
@@ -40,6 +41,7 @@ export const updateAAFPMainSetup = /* GraphQL */ `
     $condition: ModelAAFPMainSetupConditionInput
   ) {
     updateAAFPMainSetup(input: $input, condition: $condition) {
+      id
       dialed_number
       group_full_name
       group_name
@@ -73,6 +75,7 @@ export const deleteAAFPMainSetup = /* GraphQL */ `
     $condition: ModelAAFPMainSetupConditionInput
   ) {
     deleteAAFPMainSetup(input: $input, condition: $condition) {
+      id
       dialed_number
       group_full_name
       group_name

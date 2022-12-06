@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AppDataProvider } from './components/AppDataContext/AppDataContext';
 
 // sachin's code start
 import { Amplify } from 'aws-amplify';
@@ -14,7 +15,9 @@ Amplify.configure(awsExports);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AppDataProvider>
+      <App />
+    </AppDataProvider>
   </React.StrictMode>
 );
 

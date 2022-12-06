@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
@@ -8,10 +8,11 @@ import addIcon from "../../assets/img/add.png";
 import removeIcon from "../../assets/img/remove.png";
 import moment from "moment";
 import ReactTooltip from "react-tooltip";
-import { createAAFPHolidayMsgSetup } from "../../graphql/mutations";
+import { createAAFPHolidayMsgSetup, deleteAAFPHolidayMsgSetup } from "../../graphql/mutations";
+import { useAppDataContext } from "../AppDataContext/AppDataContext";
 
 const Holiday = ({ formik, holidayResult, groupName }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  //const [isLoading, setIsLoading] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [holidayList, setHolidayList] = useState([]);
@@ -27,10 +28,19 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     { value: "dayAfterThanksGiving", label: "Day after Thanksgiving" },
   ];
 
-  
+  const context = useAppDataContext()
   const holidayRef = React.createRef(null);
-  const handleAddHolidayList = async newEle => {
-    const holidayListFiltered  = holidayList.filter(holiday => holiday.holiday_type === formik.values.holiday_type.label)
+ 
+  useEffect(() => {
+    formik.setFieldValue("updated_holiday_msg_obj_list", holidayList);
+  }, [holidayList]);
+
+  // useEffect(() => {
+  //   setHolidayList(holidayResult.listAAFPHolidayMsgSetups?.items);
+  // }, [holidayResult]);
+
+  const handleAddHolidayList = useCallback(async () => {
+    const holidayListFiltered  = context.holidayData.filter(holiday => holiday.holiday_type === formik.values.holiday_type.label)
 
     if (!holidayListFiltered.length > 0) {
       const newHolidayMessage = {
@@ -73,23 +83,23 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     if (holidayRef.current) {
       holidayRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  };
-  useEffect(() => {
-    formik.setFieldValue("updated_holiday_msg_obj_list", holidayList);
-  }, [holidayList]);
+  }, []);
 
-  useEffect(() => {
-    setHolidayList(holidayResult.listAAFPHolidayMsgSetups?.items);
-  }, [holidayResult]);
+  const handleRemoveHolidayList = useCallback(async deleteId => {
+    try {
+      const deleteItem = {
+        id: deleteId
+      }
+      const holidayDeleteResult = await API.graphql({
+        query: deleteAAFPHolidayMsgSetup,
+        variables: { input: deleteItem },
+      })
+    } catch(error){
+      console.log(`Error: ${JSON.stringify(error)}`)
+    }
+  }, []);
 
-  const handleRemoveHolidayList = index => {
-    const list = [...holidayList];
-    list.splice(index, 1);
-    setHolidayList(list);
-    hideModal();
-  };
-
-  const showModal = () => {
+  const showModal = useCallback(() => {
     const { setFieldValue } = formik;
     setFieldValue("holiday_msg", "");
     setFieldValue("holiday_start_dt", "");
@@ -97,11 +107,11 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     setFieldValue("holiday_type", "");
     setFieldValue("active_flg", false);
     setHolidayModal(true);
-  };
+  }, []);
 
-  const hideModal = () => {
+  const hideModal = useCallback(() => {
     setHolidayModal(false);
-  };
+  }, []);
 
   return (
     <>
@@ -183,7 +193,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                             <a
                               href={void 0}
                               className="cursor-pointer"
-                              onClick={() => handleRemoveHolidayList(index)}
+                              onClick={() => handleRemoveHolidayList(items.id)}
                             >
                               <img src={removeIcon} className="w-5" />
                             </a>
@@ -274,7 +284,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       className="w-3/4"
                       classNamePrefix="select"
                       isDisabled={false}
-                      isLoading={isLoading}
+                      isLoading={context.loading}
                       isClearable={true}
                       options={listOfHolidays}
                       isSearchable={true}
@@ -282,6 +292,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       id="holiday_type"
                       placeholder="Select"
                       value={formik.values.holiday_type}
+                      //value={holidayResult.items}
                       onChange={d => formik.setFieldValue("holiday_type", d)}
                     />
                   </div>
@@ -302,11 +313,10 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       }}
                       minDate={moment().toDate()}
                       placeholderText="Select"
-                      showTimeSelect
+                      showTimeSelect={false}
                       value={formik.values.holiday_start_dt}
                       selectsStart
                       startDate={startDate}
-                      endDate={endDate}
                       popperPlacement="top-start"
                       popperModifiers={[
                         {
@@ -338,10 +348,9 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                         formik.setFieldValue("holiday_end_dt", date);
                       }}
                       placeholderText="Select"
-                      showTimeSelect
+                      showTimeSelect={false}
                       selectsEnd
                       value={formik.values.holiday_end_dt}
-                      startDate={startDate}
                       endDate={endDate}
                       minDate={startDate}
                       popperModifiers={[

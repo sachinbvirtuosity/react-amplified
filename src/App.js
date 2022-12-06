@@ -18,9 +18,12 @@ import {
   updateAAFPMainSetup,
   updateAAFPEmergencyMsgSetup,
 } from "./graphql/mutations";
-import { Amplify, API, Auth } from "aws-amplify";
+import { Amplify, API } from "aws-amplify";
 import aws_exports from "./aws-exports";
 import React, { useEffect, useState } from "react";
+
+import { useAppDataContext } from "./components/AppDataContext/AppDataContext";
+
 import { Loader } from "./components/Loader";
 import * as queries from "./graphql/queries";
 import Select from "react-select";
@@ -32,129 +35,27 @@ import "react-datepicker/dist/react-datepicker.min.css";
 Amplify.configure(aws_exports);
 
 function App({ signOut, user }) {
-  const [authUser, setAuthUser] = useState(undefined);
-  const [loading, setLoading] = useState(false);
-  const [departments, setDepartments] = useState([]);
-  const [holidayApiResult, setHolidayApiResult] = useState([]);
-  const [groupName, setGroupName] = useState("MRC");
+  const context = useAppDataContext();
+  const authUser = context.useAuthData();
 
-  useEffect(() => {
-    const user = Auth.currentAuthenticatedUser({
-      bypassCache: false,
-    })
-      .then(user => {
-        setAuthUser(user.attributes.email);
-      })
-      .catch(err => console.log("Error while authenticated user : ", err));
-  }, []);
-
-  useEffect(() => {
-    getAllMainSetup();
-  }, []);
-
-  useEffect(() => {
-    getEmergencySetup();
-    getHolidayList();
-  }, [groupName]);
-
-  const getHolidayList = async () => {
-    const holidayResult = await API.graphql({
-      query: queries.listAAFPHolidayMsgSetups,
-      variables: { filter: { group_name: { eq: groupName } } },
-    });
-    holidayResult.data
-      ? setHolidayApiResult(holidayResult.data)
-      : setHolidayApiResult([]);
-    formik.setFieldValue(
-      "updated_holiday_msg_obj_list",
-      holidayResult.data.listAAFPHolidayMsgSetups?.items
-    );
-  };
-
-  const getEmergencySetup = async () => {
-    const emergencySetupResult = await API.graphql({
-      query: queries.listAAFPEmergencyMsgSetups,
-      variables: { filter: { group_name: { eq: groupName } } },
-    });
-
-    // const emergencyLatest =
-    //   emergencySetupResult.data.listAAFPEmergencyMsgSetups.items.length > 0
-    //     ? emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[
-    //         emergencySetupResult.data.listAAFPEmergencyMsgSetups.items.length -
-    //           1
-    //       ].emergency_msg
-    //     : "";
-    // console.log(emergencyLatest);
-    formik.setFieldValue(
-      "emergency_msg",
-      emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[0] &&
-        emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[0] !==
-          undefined
-        ? emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[0]
-            .emergency_msg
-        : ""
-    );
-  };
-
-  const findDuplicates = arr =>
-    arr.filter((item, index) => arr.indexOf(item) != index);
-
-  const getAllMainSetup = async () => {
-    const allResult = await API.graphql({ query: queries.listAAFPMainSetups });
-    const holidayResult = await API.graphql({
-      query: queries.listAAFPHolidayMsgSetups,
-      variables: { filter: { group_name: { eq: groupName } } },
-    });
-    console.log("Holiday Result : ", holidayResult);
-    let holiday =
-      holidayResult.length > 0
-        ? formik.setFieldValue("updated_holiday_msg_obj_list", holidayResult)
-        : [];
-    const emergencySetupResult = await API.graphql({
-      query: queries.listAAFPEmergencyMsgSetups,
-      variables: { filter: { group_name: { eq: groupName } } },
-    });
-
-    formik.setFieldValue(
-      "emergency_msg",
-      emergencySetupResult.data.listAAFPEmergencyMsgSetups.items[0]
-        .emergency_msg
-    );
-    allResult.data ? setDepartments(allResult.data) : setDepartments([]);
-    holidayResult.data
-      ? setHolidayApiResult(holidayResult.data)
-      : setHolidayApiResult([]);
-
-    // SETTING FIRST OBJECT AS ENTRIES
-    for (const [key, value] of Object.entries(
-      allResult.data.listAAFPMainSetups.items[0]
-    )) {
-      formik.setFieldValue(key, value);
-    }
-
-    formik.setFieldValue(
-      "updated_holiday_msg_obj_list",
-      holidayResult.data.listAAFPHolidayMsgSetups?.items
-    );
-  };
-
+  
   const formik = useFormik({
     initialValues: {
-      dialed_number: "",
-      main_greeting: "",
-      after_hr_msg: "",
-      no_agents_logged_in_flg: false,
-      agents_unstaffed_flg: false,
-      emergency_msg: "",
-      enable_emergency_flg: false,
-      extn_num: "",
-      menu_optn_msg: "",
-      voice_mail_flg: false,
-      play_menu_optns_flg: false,
-      route_call_to_queue: false,
-      queue_msg: "",
-      enable_callback_flg: false,
-      updated_holiday_msg_obj_list: [
+      dialed_number: context.mainData ? context.mainData[0]?.dialed_number : '',
+      main_greeting: context.mainData ? context.mainData[0]?.main_greeting : '',
+      after_hr_msg: context.mainData ? context.mainData[0]?.after_hr_msg : '',
+      no_agents_logged_in_flg: context.mainData ? context.mainData[0]?.no_agents_logged_in_flg : '',
+      agents_unstaffed_flg: context.mainData ? context.mainData[0]?.agents_unstaffed_flg : '',
+      emergency_msg: context.emergencyData ? context.emergencyData[0]?.emergency_msg : '',
+      enable_emergency_flg: context.emergencyData ? context.emergencyData[0]?.active_flg : '',
+      extn_num: context.mainData ? context.mainData[0]?.extn_num : '',
+      menu_optn_msg: context.mainData ? context.mainData[0]?.menu_optn_msg : '',
+      voice_mail_flg: context.mainData ? context.mainData[0]?.voice_mail_flg : '',
+      play_menu_optns_flg: context.mainData ? context.mainData[0]?.play_menu_optns_flg : '',
+      route_call_to_queue: context.mainData ? context.mainData[0]?.route_call_to_queue : '',
+      queue_msg: context.mainData ? context.mainData[0]?.queue_msg : '',
+      enable_callback_flg: context.mainData ? context.mainData[0]?.enable_callback_flg : '',
+      updated_holiday_msg_obj_list: context.mainData ? context.holidayData : [
         {
           holiday_msg: "",
           holiday_start_dt: "",
@@ -168,14 +69,15 @@ function App({ signOut, user }) {
       holiday_end_dt: "",
       holiday_type: "",
       active_flg: false,
-      spcl_condtn_msg: "",
-      enable_spcl_condtn_flg: false,
+      spcl_condtn_msg: context.mainData ? context.mainData[0]?.spcl_condtn_msg : '',
+      enable_spcl_condtn_flg: context.mainData ? context.mainData[0]?.enable_spcl_condtn_flg : '',
     },
-    enableReinitialize: true,
+    enableReinitialize: false,
     onSubmit: async function (values) {
-      setLoading(true);
+      context.turnLoadingOn();
       try {
         const formDataMainSetup = {
+          id: values.id ? context.mainData[0].id : undefined,
           dialed_number: values.dialed_number,
           main_greeting: values.main_greeting,
           after_hr_msg: values.after_hr_msg,
@@ -192,34 +94,44 @@ function App({ signOut, user }) {
           menu_optn_msg: values.menu_optn_msg,
           voice_mail_flg: values.voice_mail_flg,
           last_update_date: new Date().toISOString(),
-          last_update_by: authUser,
+          last_update_by: context.authUser,
+          group_name: context.mainData.groupName,
         };
 
         const formDataEmergencySetup = {
+          id: context.emergencyData?.id ? context.emergencyData.id : undefined,
           emergency_msg: values.emergency_msg,
           active_flg: values.active_flg,
-          group_name: groupName,
-          id: new Date().toISOString(),
+          group_name: context.mainData[0].group_name,
+          //phone_dialed: context.mainData[0].dialed_number,
           last_update_date: new Date().toISOString(),
           last_update_by: authUser,
         };
 
         const mainSetupResult = await API.graphql({
           query: updateAAFPMainSetup,
-          variables: { input: formDataMainSetup },
-        });
+          variables: { input: {id: formDataMainSetup.id, ...formDataMainSetup }},
+        })
 
-        const emergencySetupResult = await API.graphql({
-          query: createAAFPEmergencyMsgSetup,
-          variables: { input: formDataEmergencySetup },
-        });
+        if(!context.emergencyData){
+          const _insertData = delete formDataEmergencySetup.id
+          const emergencySetupResult = await API.graphql({
+            query: createAAFPEmergencyMsgSetup,
+            variables: { input: formDataEmergencySetup },
+          })
+        } else {
+          const emergencySetupResult = await API.graphql({
+            query: updateAAFPEmergencyMsgSetup,
+            variables: { input: {id: formDataEmergencySetup.id, ...formDataEmergencySetup }},
+          })
+        }
 
         formik.values.updated_holiday_msg_obj_list.forEach(async items => {
           if (!items.holiday_type) {
             try {
               items.createdAt = new Date().toISOString();
               items.updatedAt = new Date().toISOString();
-              items.id = new Date().toISOString();
+              //items.id = new Date().toISOString();
               items.last_update_by = authUser;
               items.last_update_date = new Date().toISOString();
               const holidaySetupResult = await API.graphql({
@@ -232,21 +144,48 @@ function App({ signOut, user }) {
           }
         });
 
-        setLoading(false);
+        
+        context.turnLoadingOff();
       } catch (er) {
-        setLoading(false);
+        context.turnLoadingOff();
       }
     },
   });
 
+  useEffect(() => {
+    formik.setFieldValue(
+      "updated_holiday_msg_obj_list",
+      context.holidayData
+    );
+  }, [context.holidayData])
+
+  useEffect(() => {
+    formik.setFieldValue(
+      "emergency_msg",
+        context.emergencyData !== undefined
+        ? context.emergencyData .emergency_msg
+        : ""
+    );
+  }, [context.emergencyData])
+  
+  useEffect(() => {
+    if(context.mainData){
+      for (const [key, value] of Object.entries(
+        context.mainData[0]
+      )) {
+        formik.setFieldValue(key, value);
+      }
+    }
+  }, [context.mainData])
+
   return (
     <div className="aafp-contactcenter-app">
-      <Loader loading={loading} />
+      <Loader loading={context.loading} />
       <Header
-        departments={departments}
+        departments={context.departments}
         formik={formik}
-        holidayResult={holidayApiResult}
-        setGroupName={setGroupName}
+        holidayResult={context.holidayData}
+        setDialedNum={context.setSelectedDepartmentPhone}
       />
       <section className="w-full h-full mt-5 mb-10">
         <div className="container lg:container md:container sm:container mx-auto px-4">
@@ -259,13 +198,13 @@ function App({ signOut, user }) {
               <Queue formik={formik} />
               <Holiday
                 formik={formik}
-                holidayResult={holidayApiResult}
-                groupName={groupName}
+                holidayResult={context.holidayData}
+                dialedNumber={context.setSelectedDepartmentPhone}
               />
               <SpecialCondition formik={formik} />
             </div>
             <div className="action-btn w-full flex justify-center">
-              <button className="bg-blue-500 hover:bg-blue-700 w-1/5 text-white font-bold py-2 px-4 rounded">
+              <button type="submit" className="bg-blue-500 hover:bg-blue-700 w-1/5 text-white font-bold py-2 px-4 rounded">
                 Save
               </button>
             </div>
