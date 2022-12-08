@@ -118,6 +118,13 @@ const AppDataProvider = ({children}) => {
               query: createAAFPHolidayMsgSetup,
               variables: { input: newHolidayDataListItem },
             })
+
+            setHolidayData(previousState => {
+                var newHolidayDataState = Object.assign({}, previousState);
+                newHolidayDataState.listAAFPHolidayMsgSetups.items.push(holidaySetupResult.data.createAAFPHolidayMsgSetup)
+                return newHolidayDataState;
+            })
+
         } catch(e) {
             console.log(`Error in add holiday. ${JSON.stringify(e)}`)
         }
@@ -130,6 +137,18 @@ const AppDataProvider = ({children}) => {
                 query: deleteAAFPHolidayMsgSetup,
                 variables: { input: deleteListItem },
             })
+
+            setHolidayData(deleteListItem, previousState => {
+                var newHolidayDataState = Object.assign({}, previousState)
+                const newItems = Array.from(newHolidayDataState.listAAFPHolidayMsgSetups.items)
+                console.log('testing')
+                const objWithIdIndex = newItems.findIndex((obj) => obj.id === deleteListItem.id)
+                newItems.splice(objWithIdIndex, 1)
+
+                newHolidayDataState.listAAFPHolidayMsgSetups.items = newItems
+                return newHolidayDataState;
+            })
+
         } catch(e) {
             console.log(`Error in add holiday. ${JSON.stringify(e)}`)
         }

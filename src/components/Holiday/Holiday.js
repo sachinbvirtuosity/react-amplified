@@ -36,17 +36,17 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     formik.setFieldValue("updated_holiday_msg_obj_list", context.holidayData?.listAAFPHolidayMsgSetups?.items);
   }, [context.holidayData]);
 
-  const handleAddHolidayList = useCallback(async (e) => { 
+  const handleAddHolidayList = async (e) => { 
     const _startDate = new Date(formik.values.holiday_start_dt)
     const _endDate = new Date(formik.values.holiday_end_dt)
 
     const newHolidayDataItem = {
       holiday_msg: formik.values.holiday_msg,
       holiday_type: formik.values.holiday_type.label,
-      holiday_start_dt: _startDate ?? '',
-      holiday_end_dt: _endDate ?? '',
+      holiday_start_dt: new Date(_startDate).toISOString() ?? '',
+      holiday_end_dt: new Date(_endDate).toISOString() ?? '',
       active_flg: formik.values.active_flg,
-      group_name: groupName,
+      group_name: formik.values.group_name,
     }
     
     if (!newHolidayDataItem.holiday_msg) { return }
@@ -60,7 +60,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     if (holidayRef.current) {
       holidayRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  }, []);
+  };
 
   const handleRemoveHolidayList = useCallback(async deleteId => {
     try {
@@ -266,11 +266,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       id="holiday_type"
                       placeholder="Select"
                       value={formik.values.holiday_type}
-                      //onChange={d => formik.setFieldValue("holiday_type", d)}
-                      onChange={(e) => {
-                        //setNewHolidayMessage(Object.assign({holiday_type: e}, newHolidayMessage))
-                        formik.setFieldValue("holiday_type", e)
-                      }}
+                      onChange={d => formik.setFieldValue("holiday_type", d)}
                     />
                   </div>
                   <div className="form-group mb-4 flex">
@@ -284,10 +280,9 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       selected={startDate}
                       id="holiday_start_dt"
                       name="holiday_start_dt"
-                      onChange={e => {
-                        //setStartDate(e.date);
-                        //setNewHolidayMessage(Object.assign({holiday_start_dt: e}, newHolidayMessage))
-                        formik.setFieldValue("holiday_start_dt", e);
+                      onChange={d => {
+                        setStartDate(d)
+                        formik.setFieldValue("holiday_start_dt", d);
                       }}
                       minDate={moment().toDate()}
                       placeholderText="Select"
@@ -321,12 +316,9 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       selected={endDate}
                       id="holiday_end_dt"
                       name="holiday_end_dt"
-                      // onChange={date => {
-                      //   setEndDate(date);
-                      //   formik.setFieldValue("holiday_end_dt", date);
-                      // }}
-                      onChange={(e) => {
-                        formik.setFieldValue("holiday_end_dt", e)
+                      onChange={(d) => {
+                        setEndDate(d)
+                        formik.setFieldValue("holiday_end_dt", d)
                       }}
                       placeholderText="Select"
                       showTimeSelect={false}
