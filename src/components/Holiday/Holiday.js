@@ -18,8 +18,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
   const [endDate, setEndDate] = useState(new Date());
   const [holidayList, setHolidayList] = useState(context.holidayData);
   const [holidayModal, setHolidayModal] = useState(false);
-  const [newHolidayMessage, setNewHolidayMessage] = useState();
-
+  
   const listOfHolidays = [
     { value: "newYear", label: "New Year's Day" },
     { value: "martinLutherKingDay", label: "Martin Luther King, Jr. Day" },
@@ -31,60 +30,32 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
     { value: "dayAfterThanksGiving", label: "Day after Thanksgiving" },
   ];
 
-  
   const holidayRef = React.createRef(null);
  
-  // useEffect(() => {
-  //   formik.setFieldValue("updated_holiday_msg_obj_list", context.holidayData?.listAAFPHolidayMsgSetups?.items);
-  // }, [context.holidayData]);
+  useEffect(() => {
+    formik.setFieldValue("updated_holiday_msg_obj_list", context.holidayData?.listAAFPHolidayMsgSetups?.items);
+  }, [context.holidayData]);
 
-  // useEffect(() => {
-  //   setHolidayList(holidayResult.listAAFPHolidayMsgSetups?.items);
-  // }, [holidayResult]);
+  const handleAddHolidayList = useCallback(async (e) => { 
+    const _startDate = new Date(formik.values.holiday_start_dt)
+    const _endDate = new Date(formik.values.holiday_end_dt)
 
-  const handleAddHolidayList = useCallback(async (e) => {
-    //const holidayListFiltered  = context.holidayData?.listAAFPHolidayMsgSetups?.items?.filter(holiday => holiday.holiday_type === formik.values.holiday_type.label)
-
-    //if (!holidayListFiltered.length > 0) {
-      const newHolidayMessage = formik.values.holiday_start_dt
-        ? {
-          holiday_msg: formik.values.holiday_msg,
-          holiday_type: formik.values.holiday_type.label,
-          holiday_start_dt: new Date(formik.values.holiday_start_dt).toISOString(),
-          holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
-          active_flg: formik.values.active_flg,
-          group_name: groupName,
-        }
-        : undefined
-      
-      if (!newHolidayMessage) return
-      
-      try {
-        const holidaySetupResult = await API.graphql({
-          query: createAAFPHolidayMsgSetup,
-          variables: { input: newHolidayMessage },
-        })
-
-      //   if (holidaySetupResult){
-      //     setHolidayList(prevState => [
-      //       ...prevState,
-      //       {
-      //         holiday_msg: formik.values.holiday_msg,
-      //         holiday_type: formik.values.holiday_type.label,
-      //         holiday_start_dt: new Date(
-      //           formik.values.holiday_start_dt
-      //         ).toISOString(),
-      //         holiday_end_dt: new Date(formik.values.holiday_end_dt).toISOString(),
-      //         active_flg: formik.values.active_flg,
-      //         group_name: groupName,
-      //       },
-      //     ]);
-      //   }
-      } catch(e) {
-        console.log(`Error:${JSON.stringify(e)}`);
-      }
-      
-    //}
+    const newHolidayDataItem = {
+      holiday_msg: formik.values.holiday_msg,
+      holiday_type: formik.values.holiday_type.label,
+      holiday_start_dt: _startDate ?? '',
+      holiday_end_dt: _endDate ?? '',
+      active_flg: formik.values.active_flg,
+      group_name: groupName,
+    }
+    
+    if (!newHolidayDataItem.holiday_msg) { return }
+     
+    try {
+      context.addHolidayDataListItem(newHolidayDataItem)
+    } catch(e) {
+      console.log(`Error:${JSON.stringify(e)}`);
+    }
 
     if (holidayRef.current) {
       holidayRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -96,10 +67,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
       const deleteItem = {
         id: deleteId
       }
-      const holidayDeleteResult = await API.graphql({
-        query: deleteAAFPHolidayMsgSetup,
-        variables: { input: deleteItem },
-      })
+      context.deleteHolidayDataListItem(deleteItem)
     } catch(error){
       console.log(`Error: ${JSON.stringify(error)}`)
     }
@@ -298,10 +266,9 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       id="holiday_type"
                       placeholder="Select"
                       value={formik.values.holiday_type}
-                      //value={holidayResult.items}
                       //onChange={d => formik.setFieldValue("holiday_type", d)}
                       onChange={(e) => {
-                        setNewHolidayMessage(Object.assign({holiday_type: e}, newHolidayMessage))
+                        //setNewHolidayMessage(Object.assign({holiday_type: e}, newHolidayMessage))
                         formik.setFieldValue("holiday_type", e)
                       }}
                     />
@@ -319,7 +286,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       name="holiday_start_dt"
                       onChange={e => {
                         //setStartDate(e.date);
-                        setNewHolidayMessage(Object.assign({holiday_start_dt: e}, newHolidayMessage))
+                        //setNewHolidayMessage(Object.assign({holiday_start_dt: e}, newHolidayMessage))
                         formik.setFieldValue("holiday_start_dt", e);
                       }}
                       minDate={moment().toDate()}
@@ -359,7 +326,6 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
                       //   formik.setFieldValue("holiday_end_dt", date);
                       // }}
                       onChange={(e) => {
-                        setNewHolidayMessage(Object.assign({holiday_end_dt: e}, newHolidayMessage))
                         formik.setFieldValue("holiday_end_dt", e)
                       }}
                       placeholderText="Select"

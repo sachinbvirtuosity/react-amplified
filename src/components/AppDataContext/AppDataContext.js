@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { API, Auth } from "aws-amplify"
 import { listAAFPMainSetups, listAAFPHolidayMsgSetups } from '../../graphql/queries'
+import { createAAFPHolidayMsgSetup, deleteAAFPHolidayMsgSetup } from "../../graphql/mutations";
 
 const AppDataContext = React.createContext()
 
@@ -111,37 +112,32 @@ const AppDataProvider = ({children}) => {
         getHolidayData()
     }, [selectedDepartmentGroupName])
 
-    const addHolidayDataListItem = async (newHolidayData) => {
-        // TODO - move logic here later
+    const addHolidayDataListItem = async (newHolidayDataListItem) => {
+        try {
+            const holidaySetupResult = await API.graphql({
+              query: createAAFPHolidayMsgSetup,
+              variables: { input: newHolidayDataListItem },
+            })
+        } catch(e) {
+            console.log(`Error in add holiday. ${JSON.stringify(e)}`)
+        }
+
     };
 
-    const deleteHolidayDataListItem = async (id) => {
-        // TODO - move logic here later
+    const deleteHolidayDataListItem = async (deleteListItem) => {
+        try {
+            const holidayDeleteResult = await API.graphql({
+                query: deleteAAFPHolidayMsgSetup,
+                variables: { input: deleteListItem },
+            })
+        } catch(e) {
+            console.log(`Error in add holiday. ${JSON.stringify(e)}`)
+        }
     };
-
-    // const getEmergencyData = async () => {
-    //     try {
-    //         const emergencySetupApiResult = await API.graphql({
-    //         query: listAAFPEmergencyMsgSetups,
-    //         variables: { filter: { group_name: { eq: selectedDepartmentGroupName } } },
-    //         });
-
-    //         emergencySetupApiResult != undefined
-    //             ? setEmergencyData(emergencySetupApiResult.data.listAAFPEmergencyMsgSetups.items[0])
-    //             : setEmergencyData()
-    //     } catch(error){
-    //         console.log(`Error: ${JSON.stringify(error)}`)
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     getEmergencyData()
-    // }, [selectedDepartmentPhone])
 
     const updateEmergencyData = async (id, updated) => {
         // TODO
     }
-
 
     return <AppDataContext.Provider 
         value={{
@@ -165,7 +161,6 @@ const AppDataProvider = ({children}) => {
             getHolidayData,
             addHolidayDataListItem,
             deleteHolidayDataListItem,
-            //getEmergencyData,
             updateEmergencyData,
             setFormikState
         }}
