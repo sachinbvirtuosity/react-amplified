@@ -138,17 +138,23 @@ const AppDataProvider = ({children}) => {
                 variables: { input: deleteListItem },
             })
 
-            setHolidayData(deleteListItem, previousState => {
+            // after successfully deleting the record from the db (above), 
+            // we must now reset the holiday state by deleting the holiday item
+            // with id === deleteListItem. 
+            //
+            // When the holiday state gets reset, useEffects will cause a rerender
+            // thus removing the deleted item from the UI
+            // 
+            setHolidayData(previousState => {
                 var newHolidayDataState = Object.assign({}, previousState)
-                const newItems = Array.from(newHolidayDataState.listAAFPHolidayMsgSetups.items)
-                console.log('testing')
-                const objWithIdIndex = newItems.findIndex((obj) => obj.id === deleteListItem.id)
-                newItems.splice(objWithIdIndex, 1)
-
-                newHolidayDataState.listAAFPHolidayMsgSetups.items = newItems
-                return newHolidayDataState;
+                const newItems = newHolidayDataState.listAAFPHolidayMsgSetups.items.filter((obj) => obj.id !== deleteListItem.id)
+                
+                return {...previousState, 
+                    listAAFPHolidayMsgSetups: {
+                        items: newItems
+                    }
+                };
             })
-
         } catch(e) {
             console.log(`Error in add holiday. ${JSON.stringify(e)}`)
         }
