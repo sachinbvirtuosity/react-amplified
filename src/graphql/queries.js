@@ -81,8 +81,8 @@ export const listAAFPMainSetups = /* GraphQL */ `
   }
 `;
 export const getAAFPHolidayMsgSetup = /* GraphQL */ `
-  query GetAAFPHolidayMsgSetup($group_name: String!) {
-    getAAFPHolidayMsgSetup(group_name: $group_name) {
+  query GetAAFPHolidayMsgSetup($id: ID!) {
+    getAAFPHolidayMsgSetup(id: $id) {
       id
       holiday_start_dt
       holiday_end_dt
@@ -99,14 +99,14 @@ export const getAAFPHolidayMsgSetup = /* GraphQL */ `
 `;
 export const listAAFPHolidayMsgSetups = /* GraphQL */ `
   query ListAAFPHolidayMsgSetups(
-    $group_name: String
+    $id: ID
     $filter: ModelAAFPHolidayMsgSetupFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
     listAAFPHolidayMsgSetups(
-      group_name: $group_name
+      id: $id
       filter: $filter
       limit: $limit
       nextToken: $nextToken

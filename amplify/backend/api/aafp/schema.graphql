@@ -30,11 +30,11 @@ type AAFPMainSetup @model {
 }
 
 type AAFPHolidayMsgSetup @model {
-  id: ID!
+  id: ID! @primaryKey
   holiday_start_dt: AWSDateTime
   holiday_end_dt: AWSDateTime
   holiday_type: String
-  group_name: String! @primaryKey
+  group_name: String!
   holiday_msg: String
   active_flg: Boolean
   last_update_by: String
