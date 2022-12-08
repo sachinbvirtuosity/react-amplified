@@ -2,8 +2,10 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateAAFPMainSetup = /* GraphQL */ `
-  subscription OnCreateAAFPMainSetup {
-    onCreateAAFPMainSetup {
+  subscription OnCreateAAFPMainSetup(
+    $filter: ModelSubscriptionAAFPMainSetupFilterInput
+  ) {
+    onCreateAAFPMainSetup(filter: $filter) {
       id
       dialed_number
       group_full_name
@@ -34,8 +36,10 @@ export const onCreateAAFPMainSetup = /* GraphQL */ `
   }
 `;
 export const onUpdateAAFPMainSetup = /* GraphQL */ `
-  subscription OnUpdateAAFPMainSetup {
-    onUpdateAAFPMainSetup {
+  subscription OnUpdateAAFPMainSetup(
+    $filter: ModelSubscriptionAAFPMainSetupFilterInput
+  ) {
+    onUpdateAAFPMainSetup(filter: $filter) {
       id
       dialed_number
       group_full_name
@@ -66,8 +70,10 @@ export const onUpdateAAFPMainSetup = /* GraphQL */ `
   }
 `;
 export const onDeleteAAFPMainSetup = /* GraphQL */ `
-  subscription OnDeleteAAFPMainSetup {
-    onDeleteAAFPMainSetup {
+  subscription OnDeleteAAFPMainSetup(
+    $filter: ModelSubscriptionAAFPMainSetupFilterInput
+  ) {
+    onDeleteAAFPMainSetup(filter: $filter) {
       id
       dialed_number
       group_full_name
@@ -98,8 +104,10 @@ export const onDeleteAAFPMainSetup = /* GraphQL */ `
   }
 `;
 export const onCreateAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnCreateAAFPHolidayMsgSetup {
-    onCreateAAFPHolidayMsgSetup {
+  subscription OnCreateAAFPHolidayMsgSetup(
+    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
+  ) {
+    onCreateAAFPHolidayMsgSetup(filter: $filter) {
       id
       holiday_start_dt
       holiday_end_dt
@@ -115,8 +123,10 @@ export const onCreateAAFPHolidayMsgSetup = /* GraphQL */ `
   }
 `;
 export const onUpdateAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnUpdateAAFPHolidayMsgSetup {
-    onUpdateAAFPHolidayMsgSetup {
+  subscription OnUpdateAAFPHolidayMsgSetup(
+    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
+  ) {
+    onUpdateAAFPHolidayMsgSetup(filter: $filter) {
       id
       holiday_start_dt
       holiday_end_dt
@@ -132,8 +142,10 @@ export const onUpdateAAFPHolidayMsgSetup = /* GraphQL */ `
   }
 `;
 export const onDeleteAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnDeleteAAFPHolidayMsgSetup {
-    onDeleteAAFPHolidayMsgSetup {
+  subscription OnDeleteAAFPHolidayMsgSetup(
+    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
+  ) {
+    onDeleteAAFPHolidayMsgSetup(filter: $filter) {
       id
       holiday_start_dt
       holiday_end_dt

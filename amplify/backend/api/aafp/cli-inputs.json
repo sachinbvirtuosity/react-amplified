@@ -6,8 +6,8 @@
     "defaultAuthType": {
       "mode": "API_KEY",
       "expirationTime": 365,
-      "apiKeyExpirationDate": "2023-11-22T14:53:03.818Z",
-      "keyDescription": "AAFP_amplify_api_key"
+      "apiKeyExpirationDate": "2023-12-08T15:25:29.307Z",
+      "keyDescription": ""
     }
   }
 }

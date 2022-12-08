@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const getAAFPMainSetup = /* GraphQL */ `
-  query GetAAFPMainSetup($dialed_number: String!) {
-    getAAFPMainSetup(dialed_number: $dialed_number) {
+  query GetAAFPMainSetup($group_name: String!) {
+    getAAFPMainSetup(group_name: $group_name) {
       id
       dialed_number
       group_full_name
@@ -35,14 +35,14 @@ export const getAAFPMainSetup = /* GraphQL */ `
 `;
 export const listAAFPMainSetups = /* GraphQL */ `
   query ListAAFPMainSetups(
-    $dialed_number: String
+    $group_name: String
     $filter: ModelAAFPMainSetupFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
     listAAFPMainSetups(
-      dialed_number: $dialed_number
+      group_name: $group_name
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -81,8 +81,8 @@ export const listAAFPMainSetups = /* GraphQL */ `
   }
 `;
 export const getAAFPHolidayMsgSetup = /* GraphQL */ `
-  query GetAAFPHolidayMsgSetup($id: ID!) {
-    getAAFPHolidayMsgSetup(id: $id) {
+  query GetAAFPHolidayMsgSetup($group_name: String!) {
+    getAAFPHolidayMsgSetup(group_name: $group_name) {
       id
       holiday_start_dt
       holiday_end_dt
@@ -99,14 +99,14 @@ export const getAAFPHolidayMsgSetup = /* GraphQL */ `
 `;
 export const listAAFPHolidayMsgSetups = /* GraphQL */ `
   query ListAAFPHolidayMsgSetups(
-    $id: ID
+    $group_name: String
     $filter: ModelAAFPHolidayMsgSetupFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
     listAAFPHolidayMsgSetups(
-      id: $id
+      group_name: $group_name
       filter: $filter
       limit: $limit
       nextToken: $nextToken
