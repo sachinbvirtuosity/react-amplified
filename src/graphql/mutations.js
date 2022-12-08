@@ -30,6 +30,7 @@ export const createAAFPMainSetup = /* GraphQL */ `
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
+      emergency_msg
       createdAt
       updatedAt
     }
@@ -64,6 +65,7 @@ export const updateAAFPMainSetup = /* GraphQL */ `
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
+      emergency_msg
       createdAt
       updatedAt
     }
@@ -98,57 +100,7 @@ export const deleteAAFPMainSetup = /* GraphQL */ `
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createAAFPEmergencyMsgSetup = /* GraphQL */ `
-  mutation CreateAAFPEmergencyMsgSetup(
-    $input: CreateAAFPEmergencyMsgSetupInput!
-    $condition: ModelAAFPEmergencyMsgSetupConditionInput
-  ) {
-    createAAFPEmergencyMsgSetup(input: $input, condition: $condition) {
-      id
-      group_name
       emergency_msg
-      active_flg
-      last_update_by
-      last_update_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateAAFPEmergencyMsgSetup = /* GraphQL */ `
-  mutation UpdateAAFPEmergencyMsgSetup(
-    $input: UpdateAAFPEmergencyMsgSetupInput!
-    $condition: ModelAAFPEmergencyMsgSetupConditionInput
-  ) {
-    updateAAFPEmergencyMsgSetup(input: $input, condition: $condition) {
-      id
-      group_name
-      emergency_msg
-      active_flg
-      last_update_by
-      last_update_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteAAFPEmergencyMsgSetup = /* GraphQL */ `
-  mutation DeleteAAFPEmergencyMsgSetup(
-    $input: DeleteAAFPEmergencyMsgSetupInput!
-    $condition: ModelAAFPEmergencyMsgSetupConditionInput
-  ) {
-    deleteAAFPEmergencyMsgSetup(input: $input, condition: $condition) {
-      id
-      group_name
-      emergency_msg
-      active_flg
-      last_update_by
-      last_update_date
       createdAt
       updatedAt
     }

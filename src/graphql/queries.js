@@ -27,6 +27,7 @@ export const getAAFPMainSetup = /* GraphQL */ `
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
+      emergency_msg
       createdAt
       updatedAt
     }
@@ -71,49 +72,7 @@ export const listAAFPMainSetups = /* GraphQL */ `
         last_update_date
         hours_of_operations_name
         voice_mail_destn_email
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getAAFPEmergencyMsgSetup = /* GraphQL */ `
-  query GetAAFPEmergencyMsgSetup($id: ID!) {
-    getAAFPEmergencyMsgSetup(id: $id) {
-      id
-      group_name
-      emergency_msg
-      active_flg
-      last_update_by
-      last_update_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listAAFPEmergencyMsgSetups = /* GraphQL */ `
-  query ListAAFPEmergencyMsgSetups(
-    $id: ID
-    $filter: ModelAAFPEmergencyMsgSetupFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listAAFPEmergencyMsgSetups(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        group_name
         emergency_msg
-        active_flg
-        last_update_by
-        last_update_date
         createdAt
         updatedAt
       }

@@ -27,6 +27,7 @@ export const onCreateAAFPMainSetup = /* GraphQL */ `
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
+      emergency_msg
       createdAt
       updatedAt
     }
@@ -58,6 +59,7 @@ export const onUpdateAAFPMainSetup = /* GraphQL */ `
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
+      emergency_msg
       createdAt
       updatedAt
     }
@@ -89,48 +91,7 @@ export const onDeleteAAFPMainSetup = /* GraphQL */ `
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateAAFPEmergencyMsgSetup = /* GraphQL */ `
-  subscription OnCreateAAFPEmergencyMsgSetup {
-    onCreateAAFPEmergencyMsgSetup {
-      id
-      group_name
       emergency_msg
-      active_flg
-      last_update_by
-      last_update_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateAAFPEmergencyMsgSetup = /* GraphQL */ `
-  subscription OnUpdateAAFPEmergencyMsgSetup {
-    onUpdateAAFPEmergencyMsgSetup {
-      id
-      group_name
-      emergency_msg
-      active_flg
-      last_update_by
-      last_update_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteAAFPEmergencyMsgSetup = /* GraphQL */ `
-  subscription OnDeleteAAFPEmergencyMsgSetup {
-    onDeleteAAFPEmergencyMsgSetup {
-      id
-      group_name
-      emergency_msg
-      active_flg
-      last_update_by
-      last_update_date
       createdAt
       updatedAt
     }

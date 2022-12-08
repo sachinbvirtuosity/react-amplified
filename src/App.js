@@ -12,11 +12,11 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import {
   createAAFPMainSetup,
-  createAAFPEmergencyMsgSetup,
+  //createAAFPEmergencyMsgSetup,
   createAAFPHolidayMsgSetup,
   updateAAFPHolidayMsgSetup,
   updateAAFPMainSetup,
-  updateAAFPEmergencyMsgSetup,
+  //updateAAFPEmergencyMsgSetup,
 } from "./graphql/mutations";
 import { Amplify, API } from "aws-amplify";
 import aws_exports from "./aws-exports";
@@ -82,6 +82,7 @@ function App({ signOut, user }) {
           main_greeting: values.main_greeting,
           after_hr_msg: values.after_hr_msg,
           enable_emergency_flg: values.enable_emergency_flg,
+          emergency_msg: values.emergency_msg,
           no_agents_logged_in_flg: values.no_agents_logged_in_flg,
           agents_unstaffed_flg: values.agents_unstaffed_flg,
           enable_callback_flg: values.enable_callback_flg,
@@ -98,33 +99,20 @@ function App({ signOut, user }) {
           group_name: context.mainData.groupName,
         };
 
-        const formDataEmergencySetup = {
-          id: context.emergencyData?.id ? context.emergencyData.id : undefined,
-          emergency_msg: values.emergency_msg,
-          active_flg: values.active_flg,
-          group_name: context.mainData[0].group_name,
-          //phone_dialed: context.mainData[0].dialed_number,
-          last_update_date: new Date().toISOString(),
-          last_update_by: authUser,
-        };
+        // const formDataEmergencySetup = {
+        //   id: context.emergencyData?.id ? context.emergencyData.id : undefined,
+        //   emergency_msg: values.emergency_msg,
+        //   active_flg: values.active_flg,
+        //   group_name: context.mainData[0].group_name,
+        //   //phone_dialed: context.mainData[0].dialed_number,
+        //   last_update_date: new Date().toISOString(),
+        //   last_update_by: authUser,
+        // };
 
         const mainSetupResult = await API.graphql({
           query: updateAAFPMainSetup,
           variables: { input: {id: formDataMainSetup.id, ...formDataMainSetup }},
         })
-
-        if(!context.emergencyData){
-          const _insertData = delete formDataEmergencySetup.id
-          const emergencySetupResult = await API.graphql({
-            query: createAAFPEmergencyMsgSetup,
-            variables: { input: formDataEmergencySetup },
-          })
-        } else {
-          const emergencySetupResult = await API.graphql({
-            query: updateAAFPEmergencyMsgSetup,
-            variables: { input: {id: formDataEmergencySetup.id, ...formDataEmergencySetup }},
-          })
-        }
 
         formik.values.updated_holiday_msg_obj_list.forEach(async items => {
           if (!items.holiday_type) {

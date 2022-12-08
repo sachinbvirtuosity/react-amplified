@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { API, Auth } from "aws-amplify"
-import { listAAFPMainSetups, listAAFPHolidayMsgSetups, listAAFPEmergencyMsgSetups } from '../../graphql/queries'
+import { listAAFPMainSetups, listAAFPHolidayMsgSetups } from '../../graphql/queries'
 
 const AppDataContext = React.createContext()
 
@@ -76,7 +76,7 @@ const AppDataProvider = ({children}) => {
     const getMainData = async () => {
         const mainResults = await API.graphql({ 
             query: listAAFPMainSetups,
-            variables: { filter: { dialed_number: { eq: selectedDepartmentPhone } } },
+            variables: { filter: { group_name: { eq: selectedDepartmentGroupName } } },
         });
     
         mainResults.data
@@ -119,24 +119,24 @@ const AppDataProvider = ({children}) => {
         // TODO - move logic here later
     };
 
-    const getEmergencyData = async () => {
-        try {
-            const emergencySetupApiResult = await API.graphql({
-            query: listAAFPEmergencyMsgSetups,
-            variables: { filter: { group_name: { eq: selectedDepartmentGroupName } } },
-            });
+    // const getEmergencyData = async () => {
+    //     try {
+    //         const emergencySetupApiResult = await API.graphql({
+    //         query: listAAFPEmergencyMsgSetups,
+    //         variables: { filter: { group_name: { eq: selectedDepartmentGroupName } } },
+    //         });
 
-            emergencySetupApiResult != undefined
-                ? setEmergencyData(emergencySetupApiResult.data.listAAFPEmergencyMsgSetups.items[0])
-                : setEmergencyData()
-        } catch(error){
-            console.log(`Error: ${JSON.stringify(error)}`)
-        }
-    };
+    //         emergencySetupApiResult != undefined
+    //             ? setEmergencyData(emergencySetupApiResult.data.listAAFPEmergencyMsgSetups.items[0])
+    //             : setEmergencyData()
+    //     } catch(error){
+    //         console.log(`Error: ${JSON.stringify(error)}`)
+    //     }
+    // };
 
-    useEffect(() => {
-        getEmergencyData()
-    }, [selectedDepartmentPhone])
+    // useEffect(() => {
+    //     getEmergencyData()
+    // }, [selectedDepartmentPhone])
 
     const updateEmergencyData = async (id, updated) => {
         // TODO
@@ -165,7 +165,7 @@ const AppDataProvider = ({children}) => {
             getHolidayData,
             addHolidayDataListItem,
             deleteHolidayDataListItem,
-            getEmergencyData,
+            //getEmergencyData,
             updateEmergencyData,
             setFormikState
         }}

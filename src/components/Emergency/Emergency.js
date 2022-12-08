@@ -22,7 +22,7 @@ const Emergency = ({ formik }) => {
                 type="text"
                 id="emergency_msg"
                 name="emergency_msg"
-                value={formik.values.emergency_msg}
+                value={formik.values.emergency_msg ?? ''}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="Emergency Message"
@@ -40,7 +40,7 @@ const Emergency = ({ formik }) => {
                 type="checkbox"
                 id="enable_emergency_flg"
                 name="enable_emergency_flg"
-                checked={formik.values.enable_emergency_flg}
+                checked={formik.values.enable_emergency_flg ?? false}
                 onChange={formik.handleChange}
                 className="border border-slate-300 mx-2"
               />

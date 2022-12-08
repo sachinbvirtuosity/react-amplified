@@ -16,26 +16,18 @@ type AAFPMainSetup @model {
   enable_callback_flg: Boolean
   enable_spcl_condtn_flg: Boolean
   spcl_condtn_msg: String
-  route_call_to_queue: String
+  route_call_to_queue: Boolean
   queue_msg: String
   extn_num: String
-  play_menu_optns_flg: String
+  play_menu_optns_flg: Boolean
   menu_optn_msg: String
   queue_arn: String
-  voice_mail_flg: String
+  voice_mail_flg: Boolean
   last_update_by: String
   last_update_date: AWSDateTime
   hours_of_operations_name: String
   voice_mail_destn_email: String
-}
-
-type AAFPEmergencyMsgSetup @model {
-  id: ID! @primaryKey
-  group_name: String
   emergency_msg: String
-  active_flg: Boolean
-  last_update_by: String
-  last_update_date: AWSDateTime
 }
 
 type AAFPHolidayMsgSetup @model {
