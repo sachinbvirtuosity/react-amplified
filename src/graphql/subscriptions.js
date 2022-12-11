@@ -2,10 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateAAFPMainSetup = /* GraphQL */ `
-  subscription OnCreateAAFPMainSetup(
-    $filter: ModelSubscriptionAAFPMainSetupFilterInput
-  ) {
-    onCreateAAFPMainSetup(filter: $filter) {
+  subscription OnCreateAAFPMainSetup {
+    onCreateAAFPMainSetup {
       id
       dialed_number
       group_full_name
@@ -13,7 +11,9 @@ export const onCreateAAFPMainSetup = /* GraphQL */ `
       main_greeting
       after_hr_msg
       enable_emergency_flg
+      no_agents_logged_in_msg
       no_agents_logged_in_flg
+      agents_unstaffed_msg
       agents_unstaffed_flg
       enable_callback_flg
       enable_spcl_condtn_flg
@@ -24,22 +24,23 @@ export const onCreateAAFPMainSetup = /* GraphQL */ `
       play_menu_optns_flg
       menu_optn_msg
       queue_arn
+      voice_mail_mesg
       voice_mail_flg
       last_update_by
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
       emergency_msg
+      priority_queue_arn
+      priority_queue_enabled
       createdAt
       updatedAt
     }
   }
 `;
 export const onUpdateAAFPMainSetup = /* GraphQL */ `
-  subscription OnUpdateAAFPMainSetup(
-    $filter: ModelSubscriptionAAFPMainSetupFilterInput
-  ) {
-    onUpdateAAFPMainSetup(filter: $filter) {
+  subscription OnUpdateAAFPMainSetup {
+    onUpdateAAFPMainSetup {
       id
       dialed_number
       group_full_name
@@ -47,7 +48,9 @@ export const onUpdateAAFPMainSetup = /* GraphQL */ `
       main_greeting
       after_hr_msg
       enable_emergency_flg
+      no_agents_logged_in_msg
       no_agents_logged_in_flg
+      agents_unstaffed_msg
       agents_unstaffed_flg
       enable_callback_flg
       enable_spcl_condtn_flg
@@ -58,22 +61,23 @@ export const onUpdateAAFPMainSetup = /* GraphQL */ `
       play_menu_optns_flg
       menu_optn_msg
       queue_arn
+      voice_mail_mesg
       voice_mail_flg
       last_update_by
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
       emergency_msg
+      priority_queue_arn
+      priority_queue_enabled
       createdAt
       updatedAt
     }
   }
 `;
 export const onDeleteAAFPMainSetup = /* GraphQL */ `
-  subscription OnDeleteAAFPMainSetup(
-    $filter: ModelSubscriptionAAFPMainSetupFilterInput
-  ) {
-    onDeleteAAFPMainSetup(filter: $filter) {
+  subscription OnDeleteAAFPMainSetup {
+    onDeleteAAFPMainSetup {
       id
       dialed_number
       group_full_name
@@ -81,7 +85,9 @@ export const onDeleteAAFPMainSetup = /* GraphQL */ `
       main_greeting
       after_hr_msg
       enable_emergency_flg
+      no_agents_logged_in_msg
       no_agents_logged_in_flg
+      agents_unstaffed_msg
       agents_unstaffed_flg
       enable_callback_flg
       enable_spcl_condtn_flg
@@ -92,22 +98,23 @@ export const onDeleteAAFPMainSetup = /* GraphQL */ `
       play_menu_optns_flg
       menu_optn_msg
       queue_arn
+      voice_mail_mesg
       voice_mail_flg
       last_update_by
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
       emergency_msg
+      priority_queue_arn
+      priority_queue_enabled
       createdAt
       updatedAt
     }
   }
 `;
 export const onCreateAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnCreateAAFPHolidayMsgSetup(
-    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
-  ) {
-    onCreateAAFPHolidayMsgSetup(filter: $filter) {
+  subscription OnCreateAAFPHolidayMsgSetup {
+    onCreateAAFPHolidayMsgSetup {
       id
       holiday_start_dt
       holiday_end_dt
@@ -123,10 +130,8 @@ export const onCreateAAFPHolidayMsgSetup = /* GraphQL */ `
   }
 `;
 export const onUpdateAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnUpdateAAFPHolidayMsgSetup(
-    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
-  ) {
-    onUpdateAAFPHolidayMsgSetup(filter: $filter) {
+  subscription OnUpdateAAFPHolidayMsgSetup {
+    onUpdateAAFPHolidayMsgSetup {
       id
       holiday_start_dt
       holiday_end_dt
@@ -142,10 +147,8 @@ export const onUpdateAAFPHolidayMsgSetup = /* GraphQL */ `
   }
 `;
 export const onDeleteAAFPHolidayMsgSetup = /* GraphQL */ `
-  subscription OnDeleteAAFPHolidayMsgSetup(
-    $filter: ModelSubscriptionAAFPHolidayMsgSetupFilterInput
-  ) {
-    onDeleteAAFPHolidayMsgSetup(filter: $filter) {
+  subscription OnDeleteAAFPHolidayMsgSetup {
+    onDeleteAAFPHolidayMsgSetup {
       id
       holiday_start_dt
       holiday_end_dt

@@ -9,13 +9,11 @@ const AppDataProvider = ({children}) => {
     const [departments, setDepartments] = useState()
     const [mainData, setMainData] = useState()
     const [holidayData, setHolidayData] = useState()
-    const [emergencyData, setEmergencyData] = useState()
 
-    const [selectedDepartmentPhone, setSelectedDepartmentPhone] = useState('+18008132279')
-    const [selectedDepartmentGroupName, setSelectedDepartmentGroupName] = useState('MRC')
+    const [selectedDepartmentGroupName, setSelectedDepartmentGroupName] = useState()
     const [loading, setLoading] = useState(false)
 
-    const [formikState, setFormikState] = useState();
+    //const [formikState, setFormikState] = useState();
 
     const toggleLoading = () => {
         setLoading(!loading);
@@ -52,7 +50,6 @@ const AppDataProvider = ({children}) => {
     
         const _departments = departmentResults.data.listAAFPMainSetups.items.map((item) => {
             return {
-                dialed_number: item.dialed_number,
                 group_name: item.group_name,
             }
         })
@@ -66,28 +63,32 @@ const AppDataProvider = ({children}) => {
         getDepartments()
     }, [])
 
-    const setSelectedDepartment_Phone = (phone) => {
-        setSelectedDepartmentPhone(phone)
-    }
-
     const setSelectedDepartment_GroupName = (groupName) => {
         setSelectedDepartmentGroupName(groupName)
     }
 
     const getMainData = async () => {
-        const mainResults = await API.graphql({ 
-            query: listAAFPMainSetups,
-            variables: { filter: { group_name: { eq: selectedDepartmentGroupName } } },
-        });
-    
-        mainResults.data
+        try{
+            if(!selectedDepartmentGroupName){
+                setSelectedDepartmentGroupName('MRC')
+            }
+            
+            const mainResults = await API.graphql({ 
+                query: listAAFPMainSetups,
+                variables: { filter: { group_name: { eq: selectedDepartmentGroupName } } },
+            });
+
+            mainResults.data
             ? setMainData(mainResults.data.listAAFPMainSetups.items)
             : setMainData([]);
+        } catch (e){
+            console.log(`Error getMainData: ${JSON.stringify(e)}`)
+        }
     };
 
     useEffect(() => {
         getMainData()
-    }, [selectedDepartmentPhone])
+    }, [selectedDepartmentGroupName])
 
     const updateMainData = async (id, updated) => {
         // TODO - move logic here later
@@ -160,10 +161,6 @@ const AppDataProvider = ({children}) => {
         }
     };
 
-    const updateEmergencyData = async (id, updated) => {
-        // TODO
-    }
-
     return <AppDataContext.Provider 
         value={{
             loading,
@@ -172,22 +169,18 @@ const AppDataProvider = ({children}) => {
             toggleLoading,
             useAuthData,
             departments,
-            selectedDepartmentPhone,
             selectedDepartmentGroupName,
-            setSelectedDepartment_Phone,
             setSelectedDepartment_GroupName,
             mainData,
             holidayData,
-            emergencyData,
-            formikState,
+            //formikState,
             getDepartments,
             getMainData,
             updateMainData,
             getHolidayData,
             addHolidayDataListItem,
             deleteHolidayDataListItem,
-            updateEmergencyData,
-            setFormikState
+            //setFormikState
         }}
     >
         { children }

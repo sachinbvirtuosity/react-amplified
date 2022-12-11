@@ -14,25 +14,6 @@ const Primary = ({ formik }) => {
             <div className="form-group mb-4">
               <label
                 className="block text-gray-700 text-xs font-semibold mb-1"
-                htmlFor="incoming number"
-              >
-                Incoming number:
-              </label>
-              <input
-                type="text"
-                id="dialed_number"
-                name="dialed_number"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.dialed_number}
-                disabled={true}
-                placeholder="Dialed Number"
-                className="w-full border border-slate-300 rounded py-1 px-2 text-gray-700 "
-              />
-            </div>
-            <div className="form-group mb-4">
-              <label
-                className="block text-gray-700 text-xs font-semibold mb-1"
                 htmlFor="welcome message"
               >
                 Welcome Prompt:

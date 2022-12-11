@@ -10,7 +10,9 @@ type AAFPMainSetup @model {
   main_greeting: String
   after_hr_msg: String
   enable_emergency_flg: Boolean
+  no_agents_logged_in_msg: String
   no_agents_logged_in_flg: Boolean
+  agents_unstaffed_msg: String
   agents_unstaffed_flg: Boolean
   enable_callback_flg: Boolean
   enable_spcl_condtn_flg: Boolean
@@ -21,12 +23,15 @@ type AAFPMainSetup @model {
   play_menu_optns_flg: Boolean
   menu_optn_msg: String
   queue_arn: String
+  voice_mail_mesg: String
   voice_mail_flg: Boolean
   last_update_by: String
   last_update_date: AWSDateTime
   hours_of_operations_name: String
   voice_mail_destn_email: String
   emergency_msg: String
+  priority_queue_arn: String
+  priority_queue_enabled: String
 }
 
 type AAFPHolidayMsgSetup @model {

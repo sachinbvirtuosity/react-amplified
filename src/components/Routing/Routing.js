@@ -6,41 +6,27 @@ const Routing = ({ formik }) => {
       <div className="panel action-card panel-default shadow-md">
         <div className="panel-heading">
           <h3 className="block text-gray-700 text-xs font-bold">
-            Routing Setup
+            Voice Mail Setup
           </h3>
         </div>
         <div className="panel-body">
           <div className="flex flex-col">
-            <div className="form-group mb-4 flex">
+          <div className="form-group mb-4">
               <label
                 className="block text-gray-700 text-xs font-semibold mb-1"
-                htmlFor="play options menu"
+                htmlFor="voicemail message"
               >
-                Play Options Menu:
+                Voicemail Message
               </label>
               <input
-                type="checkbox"
-                id="play_menu_optns_flg"
-                name="play_menu_optns_flg"
-                checked={formik.values.play_menu_optns_flg}
+                type="text"
+                id="voice_mail_mesg"
+                name="voice_mail_mesg"
+                value={formik.values.voice_mail_mesg}
                 onChange={formik.handleChange}
-                className="border border-slate-300 mx-2"
-              />
-            </div>
-            <div className="form-group mb-4 flex">
-              <label
-                className="block text-gray-700 text-xs font-semibold mb-1"
-                htmlFor="routing call to queue"
-              >
-                Route Call to Queue:
-              </label>
-              <input
-                type="checkbox"
-                id="route_call_to_queue"
-                name="route_call_to_queue"
-                checked={formik.values.route_call_to_queue}
-                onChange={formik.handleChange}
-                className="border border-slate-300 mx-2"
+                onBlur={formik.handleBlur}
+                placeholder="Voicemail message"
+                className="w-full border border-slate-300 rounded py-1 px-2 text-gray-700 "
               />
             </div>
             <div className="form-group mb-4 flex">

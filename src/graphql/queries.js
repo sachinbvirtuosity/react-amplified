@@ -11,7 +11,9 @@ export const getAAFPMainSetup = /* GraphQL */ `
       main_greeting
       after_hr_msg
       enable_emergency_flg
+      no_agents_logged_in_msg
       no_agents_logged_in_flg
+      agents_unstaffed_msg
       agents_unstaffed_flg
       enable_callback_flg
       enable_spcl_condtn_flg
@@ -22,12 +24,15 @@ export const getAAFPMainSetup = /* GraphQL */ `
       play_menu_optns_flg
       menu_optn_msg
       queue_arn
+      voice_mail_mesg
       voice_mail_flg
       last_update_by
       last_update_date
       hours_of_operations_name
       voice_mail_destn_email
       emergency_msg
+      priority_queue_arn
+      priority_queue_enabled
       createdAt
       updatedAt
     }
@@ -56,7 +61,9 @@ export const listAAFPMainSetups = /* GraphQL */ `
         main_greeting
         after_hr_msg
         enable_emergency_flg
+        no_agents_logged_in_msg
         no_agents_logged_in_flg
+        agents_unstaffed_msg
         agents_unstaffed_flg
         enable_callback_flg
         enable_spcl_condtn_flg
@@ -67,12 +74,15 @@ export const listAAFPMainSetups = /* GraphQL */ `
         play_menu_optns_flg
         menu_optn_msg
         queue_arn
+        voice_mail_mesg
         voice_mail_flg
         last_update_by
         last_update_date
         hours_of_operations_name
         voice_mail_destn_email
         emergency_msg
+        priority_queue_arn
+        priority_queue_enabled
         createdAt
         updatedAt
       }

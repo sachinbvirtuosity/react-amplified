@@ -37,8 +37,8 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
   }, [context.holidayData]);
 
   const handleAddHolidayList = async (e) => { 
-    const _startDate = new Date(formik.values.holiday_start_dt)
-    const _endDate = new Date(formik.values.holiday_end_dt)
+    const _startDate = new Date(formik.values.holiday_start_dt).setHours(0, 0, 0)
+    const _endDate = new Date(formik.values.holiday_end_dt).setHours(23, 59, 59)
 
     const newHolidayDataItem = {
       holiday_msg: formik.values.holiday_msg,
