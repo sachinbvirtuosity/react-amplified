@@ -18,8 +18,8 @@ const Routing = ({ formik }) => {
               >
                 Voicemail Message
               </label>
-              <input
-                type="text"
+              <textarea
+                rows="4"
                 id="voice_mail_mesg"
                 name="voice_mail_mesg"
                 value={formik.values.voice_mail_mesg}

@@ -18,13 +18,13 @@ const Primary = ({ formik }) => {
               >
                 Welcome Prompt:
               </label>
-              <input
-                type="text"
+              <textarea
+                rows="4"
                 id="main_greeting"
                 name="main_greeting"
                 value={formik.values.main_greeting}
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                //onBlur={formik.handleBlur}
                 placeholder="Welcome Message"
                 className="w-full border border-slate-300 rounded py-1 px-2 text-gray-700 "
               />
@@ -36,13 +36,13 @@ const Primary = ({ formik }) => {
               >
                 After Hour Prompt:
               </label>
-              <input
-                type="text"
+              <textarea
+                rows="4"
                 id="after_hr_msg"
                 name="after_hr_msg"
-                placeholder="After Hour Message"
                 value={formik.values.after_hr_msg}
                 onChange={formik.handleChange}
+                placeholder="After hours message"
                 className="w-full border border-slate-300 rounded py-1 px-2 text-gray-700 "
               />
             </div>

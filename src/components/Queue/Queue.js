@@ -16,8 +16,8 @@ const Queue = ({ formik }) => {
               >
                 Queue Prompt:
               </label>
-              <input
-                type="text"
+              <textarea
+                rows="4"
                 id="queue_msg"
                 name="queue_msg"
                 value={formik.values.queue_msg}

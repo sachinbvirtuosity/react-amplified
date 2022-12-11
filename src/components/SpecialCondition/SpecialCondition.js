@@ -18,8 +18,8 @@ const SpecialCondition = ({ formik }) => {
               >
                 Special Condition Prompt:
               </label>
-              <input
-                type="text"
+              <textarea
+                rows="4"
                 id="spcl_condtn_msg"
                 name="spcl_condtn_msg"
                 value={formik.values.spcl_condtn_msg}

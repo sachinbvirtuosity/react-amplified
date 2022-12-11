@@ -18,8 +18,8 @@ const Emergency = ({ formik }) => {
               >
                 Emergency Condition Prompt:
               </label>
-              <input
-                type="text"
+              <textarea
+                rows="4"
                 id="emergency_msg"
                 name="emergency_msg"
                 value={formik.values.emergency_msg ?? ''}

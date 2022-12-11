@@ -19,8 +19,8 @@ const Agent = ({ formik }) => {
               >
                 Agents Not Available Message
               </label>
-              <input
-                type="text"
+              <textarea
+                rows="4"
                 id="no_agents_logged_in_msg"
                 name="no_agents_logged_in_msg"
                 value={formik.values.no_agents_logged_in_msg}
@@ -54,8 +54,8 @@ const Agent = ({ formik }) => {
               >
                 Agents Not Staffed Message
               </label>
-              <input
-                type="text"
+              <textarea
+                rows="4"
                 id="agents_unstaffed_msg"
                 name="agents_unstaffed_msg"
                 value={formik.values.agents_unstaffed_msg}
