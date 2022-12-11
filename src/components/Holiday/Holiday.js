@@ -67,7 +67,7 @@ const Holiday = ({ formik, holidayResult, groupName }) => {
       const deleteItem = {
         id: deleteId
       }
-      context.deleteHolidayDataListItem(deleteItem)
+      await context.deleteHolidayDataListItem(deleteItem)
     } catch(error){
       console.log(`Error: ${JSON.stringify(error)}`)
     }
