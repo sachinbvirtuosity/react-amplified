@@ -31,7 +31,7 @@ type AAFPMainSetup @model {
   voice_mail_destn_email: String
   emergency_msg: String
   priority_queue_arn: String
-  priority_queue_enabled: String
+  priority_queue_enabled: Boolean
 }
 
 type AAFPHolidayMsgSetup @model {

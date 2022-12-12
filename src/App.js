@@ -186,7 +186,7 @@ function App({ signOut, user }) {
         setDialedNum={context.setSelectedDepartmentPhone}
       />
       <section className="w-full h-full mt-5 mb-10">
-        <div className="container lg:container md:container sm:container mx-auto px-4">
+        <div className="mx-auto">
           <form onSubmit={formik.handleSubmit}>
             <div className="flex flex-wrap justify-center">
               <Primary formik={formik} />
@@ -201,8 +201,8 @@ function App({ signOut, user }) {
               />
               <SpecialCondition formik={formik} />
             </div>
-            <div className="action-btn w-full flex justify-end">
-              <button type="submit" className="bg-blue-500 hover:bg-blue-700 w-1/5 text-white font-bold py-2 px-4 rounded">
+            <div className="action-btn w-full flex justify-end pr-12">
+              <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-12 rounded">
                 Save
               </button>
             </div>
